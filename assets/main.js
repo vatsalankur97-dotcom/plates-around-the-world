@@ -1,6 +1,6 @@
 (()=>{const RM=matchMedia('(prefers-reduced-motion: reduce)').matches,$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 $('.menu')?.addEventListener('click',()=>$('nav ul').classList.toggle('open'));
-$$('form[data-placeholder]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();f.innerHTML='<p style="margin:12px auto">Thanks! (Placeholder form, not yet connected.)</p>'}));
+$$('form[data-subscribe]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();const v=f.querySelector('input').value;location.href='mailto:plates.arounddtheworld@gmail.com?subject=Subscribe&body='+encodeURIComponent('Please add '+v+' to the Plates Around the World newsletter.');f.innerHTML='<p style="margin:12px auto">Thanks! Your email app will open to confirm your subscription.</p>'}));
 const h=$('header');const onS=()=>h&&h.classList.toggle('small',scrollY>40);addEventListener('scroll',onS,{passive:true});onS();
 // word reveal
 $$('[data-words]').forEach(el=>{let i=0;el.innerHTML=el.innerHTML.split(/(<[^>]+>|\s+)/).map(t=>/^\s+$|^</.test(t)||!t?t:`<span class="w" style="animation-delay:${.15+(i++)*.12}s">${t}</span>`).join('')});
@@ -23,6 +23,6 @@ const st=$('.logo-stage');if(st)addEventListener('scroll',()=>{st.style.transfor
 })();
 // spin the plate (works even with reduced motion)
 (()=>{const b=document.querySelector('#spin');if(!b)return;const P=document.querySelector('.spinplate'),out=document.querySelector('.spin-result'),lbl=P.querySelector('b');
-const O=[["Pad Thai in Bangkok","articles/best-street-food-bangkok.html"],["Crab omelette at Jay Fai","articles/best-street-food-bangkok.html"],["Pastel de nata in Lisbon","articles/where-to-eat-lisbon.html"],["Garlic prawns at Ramiro","articles/where-to-eat-lisbon.html"],["Butter chicken, Delhi-style","articles/butter-chicken.html"]];
+const O=[["Pad Thai in Bangkok","articles/best-street-food-bangkok.html"],["Crab omelette at Jay Fai","articles/best-street-food-bangkok.html"],["Pastel de nata in Lisbon","articles/where-to-eat-lisbon.html"],["Garlic prawns at Ramiro","articles/where-to-eat-lisbon.html"],["Butter chicken, Delhi-style","articles/butter-chicken.html"],["Yakitori in Shinjuku","articles/where-to-eat-tokyo.html"],["Tonkotsu ramen","articles/ramen-101.html"]];
 let rot=0;b.addEventListener('click',()=>{const o=O[Math.floor(Math.random()*O.length)];rot+=1080+Math.random()*360;P.style.transform=`rotate(${rot}deg)`;lbl.textContent='…';out.textContent='';
 setTimeout(()=>{P.style.transform=`rotate(${Math.round(rot/360)*360}deg)`;lbl.textContent=o[0];out.innerHTML=`<a href="${o[1]}">${o[0]} →</a>`},1600)})})();
