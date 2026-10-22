@@ -1,0 +1,12 @@
+{
+  "slug": "cervejaria-ramiro",
+  "name": "Cervejaria Ramiro",
+  "description": "A Lisbon beer hall famous for garlic prawns, clams and its prego, as seen in Anthony Bourdain's No Reservations (2012).",
+  "address": {
+    "locality": "Lisbon",
+    "country": "Portugal"
+  },
+  "serves_cuisine": "Seafood",
+  "featured_in": "where-to-eat-lisbon",
+  "review_body": "A beer hall famous for garlic prawns, clams and its prego (steak sandwich) for dessert, as seen in the Lisbon episode of Anthony Bourdain's No Reservations (2012)."
+}

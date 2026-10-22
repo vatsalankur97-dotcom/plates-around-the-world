@@ -158,34 +158,37 @@ These are fragments, not pages. The build does not insert them until `docs/front
 | `partials/privacy-section.html` | Section `#privacy`: email only, weekly plate, not sold, how to be removed |
 | `partials/search.html` | Label, search input, results list. Loads `assets/search.js` |
 | `assets/search.js` | Client-side filter of `data/search-index.json` |
-| `partials/affiliate-disclosure.html` | Reusable disclosure |
-| `partials/affiliate-example.html` | One example link, `https://example.com/example-pan`, not a real program |
+| `partials/footer-disclosure.html` | Footer link to `/disclosure.html` |
+| `partials/gear.css` | `.gear-list`, `.gear-label`, `.gear-meta` for the frontend to paste into `assets/style.css` |
 
 `assets/main.js` turns `form[data-subscribe]` into a `mailto:`. The Netlify form does **not** use `data-subscribe`, so that handler will not swallow a real submission. The form has to be in published HTML before Netlify will register it. A partial sitting in `partials/` is not registered.
 
-Affiliate links in Markdown (rendered only if a page is generated later; nothing on the live pages uses this yet):
+### Gear lists (`scripts/gear.py`)
 
-```text
-[[affiliate href="https://example.com/example-pan" text="example pan"]]
-```
+One file per page that has gear: `data/gear/<slug>.json`. Validated on every build. Invalid entries fail the build. `data/affiliate-config.json` holds `AFFILIATE_LINKS_ENABLED` (default `false`) and per-network adapters. No affiliate IDs are stored. EarnKaro and Cuelinks adapters are stubs and never invent a tracking URL.
 
-Output:
+With the flag off, an active item renders as a plain link (`rel="nofollow noopener"`, no "(affiliate link)" label). An empty `items` list omits the section. The live recipe list is empty, so nothing is injected.
+
+When the published HTML contains both markers, the build replaces only the interior:
 
 ```html
-<a href="https://example.com/example-pan" rel="sponsored nofollow noopener" target="_blank">example pan</a>
+<!-- GEAR:START -->
+<!-- GEAR:END -->
 ```
 
-The same helper is `render_affiliate_link(href, text)` in `scripts/build_articles.py`. `href` must be `https`. No real affiliate URLs are checked in.
+On a recipe the section is `<h2>What we used</h2>`, meant to sit after Ingredients. The disclosure note is the first thing inside the section, above the first affiliate link. `redesign` was not on GitHub, so these markers are not in the live pages yet.
+
+`/disclosure.html` is generated from `content/disclosure.md` and listed in the sitemap. The Amazon Associates sentence is added only when `networks.amazon.enabled` is true and a tag is set.
 
 ### Legacy `page()` / `card()` helpers
 
 Content Studio's local `build_articles.py` was not in the repo. It string-replaced `templates/article-template.html` (`ARTICLE TITLE`, `SLUG`, and the Lisbon description sentence), wrote `articles/*.html`, and spliced cards into the homepage, guides, and recipes. `lib.py` was **not** imported by that script. It is a Playwright social-image renderer with machine-local paths, and it is not part of this build.
 
-The port keeps `render_article_html()` and `render_card()` so a generated article still comes out as: tag, `h1`, lead, cover image, optional research note, body, sources line. The default build does **not** call them on the live pages. Doing that would overwrite canonical, Open Graph, and alt text, and it would drop pieces the old script never knew about (the Tokyo trip gallery, the ramen photo credit). The default command only validates content, writes `sitemap.xml`, writes `data/jsonld/` and `data/search-index.json`, and fills `<!-- JSON-LD:START -->` … `<!-- JSON-LD:END -->` when both markers are present.
+The port keeps `render_article_html()` and `render_card()` so a generated article still comes out as: tag, `h1`, lead, cover image, optional research note, body, sources line. The default build does **not** call them on the live pages. Doing that would overwrite canonical, Open Graph, and alt text, and it would drop pieces the old script never knew about (the Tokyo trip gallery, the ramen photo credit). The default command only validates content, writes `sitemap.xml`, writes `data/jsonld/` and `data/search-index.json`, generates `disclosure.html`, and fills `<!-- JSON-LD:START -->` … `<!-- JSON-LD:END -->` and `<!-- GEAR:START -->` … `<!-- GEAR:END -->` when both markers of a pair are already in that page.
 
 ## Sitemap
 
-`content/site.json` lists static paths in order: `/`, `/guides.html`, `/recipes.html`, `/about.html`, `/contact.html`. Content paths follow, sorted by `path`. `lastmod` is the content `date` or the static page's `lastmod`. Drafts are excluded.
+`content/site.json` lists static paths in order: `/`, `/guides.html`, `/recipes.html`, `/about.html`, `/contact.html`, `/disclosure.html`. Content paths follow, sorted by `path`. `lastmod` is the content `date` or the static page's `lastmod`. Drafts are excluded.
 
 `robots.txt` is frontend-owned and already contains `Sitemap: https://platesaroundtheworld.netlify.app/sitemap.xml`. Keep that line pointed at `/sitemap.xml` on `SITE_URL`. This build does not edit `robots.txt`.
 
@@ -215,11 +218,12 @@ Restaurant records use the guide URL in `url` and `type: "restaurant"`, because 
 
 Not edited by this pipeline:
 
-- Every HTML page and `templates/`
+- Existing HTML pages and `templates/` (no meta, canonical, Open Graph, or alt changes)
 - `assets/style.css`, `assets/main.js`
 - `robots.txt`
-- Meta, Open Graph, canonical, and alt text
 
-Edited by the build, and not frontend-owned: `sitemap.xml`, `data/jsonld/*.json`, `data/search-index.json`.
+`disclosure.html` is new. The build writes it, including a head, because the page did not exist. The frontend can replace that shell when `redesign` templates land.
+
+Edited by the build: `sitemap.xml`, `disclosure.html`, `data/jsonld/*.json`, `data/search-index.json`. JSON-LD and gear HTML are written into an existing page only between the markers above.
 
 `netlify.toml` is shared deploy config. The build command is `python3 scripts/build_articles.py`, publish stays `.`. Deploy Previews and branch deploys set `ignore = "exit 0"` so those contexts skip the build. Production does not set `ignore`.

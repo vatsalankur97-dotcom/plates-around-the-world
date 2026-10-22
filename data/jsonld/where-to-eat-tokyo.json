@@ -1,0 +1,55 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo.html#article",
+      "headline": "Where to Eat in Tokyo: A First-Timer's Neighbourhood Guide",
+      "description": "Breakfast at Tsukiji, snacks under the tracks at Ameyoko, yakitori in Shinjuku's memory lane: Tokyo, one neighbourhood at a time.",
+      "image": "https://platesaroundtheworld.netlify.app/assets/img/where-to-eat-tokyo.jpg",
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16",
+      "author": {
+        "@type": "Organization",
+        "name": "Plates Around the World",
+        "url": "https://platesaroundtheworld.netlify.app/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Plates Around the World",
+        "url": "https://platesaroundtheworld.netlify.app/"
+      },
+      "mainEntityOfPage": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo.html",
+      "mentions": [
+        {
+          "@id": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo.html#rairaiken"
+        }
+      ]
+    },
+    {
+      "@type": "Restaurant",
+      "@id": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo.html#rairaiken",
+      "name": "Rairaiken",
+      "description": "The first specialised ramen shop, traced to Asakusa in 1910. The original closed in 1976; Wikipedia reports a descendant of the founder reopened it in Asakusa in 2026.",
+      "address": {
+        "addressLocality": "Tokyo",
+        "addressCountry": "Japan",
+        "@type": "PostalAddress"
+      },
+      "servesCuisine": "Ramen"
+    },
+    {
+      "@type": "Review",
+      "itemReviewed": {
+        "@id": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo.html#rairaiken"
+      },
+      "reviewBody": "Ramen historians trace the first specialised ramen shop, Rairaiken, to Asakusa in 1910. The original closed in 1976, and Wikipedia reports a descendant of the founder reopened it in Asakusa in 2026.",
+      "datePublished": "2026-10-16",
+      "author": {
+        "@type": "Organization",
+        "name": "Plates Around the World",
+        "url": "https://platesaroundtheworld.netlify.app/"
+      }
+    }
+  ]
+}

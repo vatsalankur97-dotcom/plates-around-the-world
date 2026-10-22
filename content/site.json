@@ -1,0 +1,10 @@
+{
+  "static_pages": [
+    {"path": "/", "lastmod": "2026-10-16"},
+    {"path": "/guides.html", "lastmod": "2026-10-16"},
+    {"path": "/recipes.html", "lastmod": "2026-10-16"},
+    {"path": "/about.html", "lastmod": "2026-10-16"},
+    {"path": "/contact.html", "lastmod": "2026-10-16"},
+    {"path": "/disclosure.html", "lastmod": "2026-10-22"}
+  ]
+}

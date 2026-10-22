@@ -1,0 +1,25 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://platesaroundtheworld.netlify.app/articles/ramen-101.html#article",
+      "headline": "Ramen 101: Shoyu, Shio, Miso & Tonkotsu Explained",
+      "description": "Four bowls, one cheat-sheet: what shoyu, shio, miso and tonkotsu actually mean, where each comes from, and which one to order first.",
+      "image": "https://platesaroundtheworld.netlify.app/assets/img/ramen-101.jpg",
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16",
+      "author": {
+        "@type": "Organization",
+        "name": "Plates Around the World",
+        "url": "https://platesaroundtheworld.netlify.app/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Plates Around the World",
+        "url": "https://platesaroundtheworld.netlify.app/"
+      },
+      "mainEntityOfPage": "https://platesaroundtheworld.netlify.app/articles/ramen-101.html"
+    }
+  ]
+}
