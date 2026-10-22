@@ -36,9 +36,7 @@ After the property is verified:
 2. Submit `sitemap.xml`.
 3. The full URL is `https://platesaroundtheworld.netlify.app/sitemap.xml`.
 
-The file lists the homepage as `https://platesaroundtheworld.netlify.app/` (path `/`, not `/index.html`). The homepage canonical in `index.html` is still `/index.html` until the frontend changes it. This repo does not edit that tag.
-
-`/disclosure.html` is included. Article URLs are unchanged.
+The file lists the homepage as `https://platesaroundtheworld.netlify.app/` (path `/`). Every loc matches the extensionless canonical, including `/disclosure` and `/articles/butter-chicken`. The `.html` files still return 200. This repo does not edit the canonical tags.
 
 ## Not done from here
 

@@ -2,7 +2,7 @@
 title: Disclosure
 description: How Plates Around the World makes money, including affiliate links, gifts, and paid partnerships.
 date: 2026-10-22
-path: /disclosure.html
+path: /disclosure
 ---
 ## Disclosure: how we make money
 
@@ -14,7 +14,7 @@ Plates Around the World is a small, independent food publication. We keep it fre
 
 **Paid partnerships.** Paid content is labelled **"Ad"** or **"Sponsored"** at the top, and uses the platform's paid-partnership tag on social media.
 
-**First-hand vs researched.** Separately from all this, every guide says whether we ate there ourselves ("First-hand visit") or researched it ("Researched guide"). See [How we research](about.html#method).
+**First-hand vs researched.** Separately from all this, every guide says whether we ate there ourselves ("First-hand visit") or researched it ("Researched guide"). See [How we research](/about#method).
 
 **AI.** We don't use AI-generated images to show a partner's product or a restaurant's food. If an image in a post is AI-generated, we label it.
 

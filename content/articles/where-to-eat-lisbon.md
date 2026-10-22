@@ -1,10 +1,11 @@
 ---
 type: article
 slug: where-to-eat-lisbon
-title: Where to eat in Lisbon
-description: Custard tarts in Belém, garlic prawns at Ramiro and a market hall built for grazing: Lisbon's most-praised tables.
+title: Where to Eat in Lisbon
+description: "Where to eat in Lisbon: pastéis de nata in Belém, garlic prawns at Cervejaria Ramiro, Time Out Market and petiscos in Chiado. A researched guide, sources cited."
 date: 2026-10-16
-path: /articles/where-to-eat-lisbon.html
+updated: 2026-10-22
+path: /articles/where-to-eat-lisbon
 image: assets/img/lisbon.jpg
 alt: Where to eat in Lisbon
 tag: Researched guide

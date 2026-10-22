@@ -67,6 +67,8 @@ def main() -> int:
     _inject_gear(pages, gear_files, config)
     _write_search_index(pages, restaurants, gear_files)
     _write_disclosure(config)
+    _ensure_disclosure_redirect()
+    _validate_emitted_jsonld(pages)
     _assert_site_urls()
     if not config["AFFILIATE_LINKS_ENABLED"]:
         _assert_flag_off()
@@ -193,6 +195,34 @@ def _load_gear(pages: list[dict]) -> dict[str, dict]:
     return found
 
 
+def _public_path(path: str) -> str:
+    """Canonical path. Both /articles/name and /articles/name.html are the same page."""
+    if path in ("", "/"):
+        return "/"
+    if not path.startswith("/"):
+        path = "/" + path
+    if path.endswith("/index.html"):
+        return "/"
+    if path.endswith(".html"):
+        path = path[: -len(".html")]
+    return path
+
+
+def _html_path(path: str) -> Path:
+    """File on disk for a public path. Extensionless URLs are rewritten to .html."""
+    public = _public_path(path)
+    if public == "/":
+        return ROOT / "index.html"
+    direct = ROOT / public.lstrip("/")
+    if direct.is_file():
+        return direct
+    return ROOT / f"{public.lstrip('/')}.html"
+
+
+def _page_lastmod(page: dict) -> str:
+    return page.get("updated") or page["date"]
+
+
 def _validate_pages(pages: list[dict], restaurants: dict[str, dict]) -> None:
     paths = set()
     for page in pages:
@@ -201,8 +231,11 @@ def _validate_pages(pages: list[dict], restaurants: dict[str, dict]) -> None:
                 raise SystemExit(f"{page['slug']}: {key} is required")
         if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", page["date"]):
             raise SystemExit(f"{page['slug']}: date must be YYYY-MM-DD")
+        if page.get("updated") and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", page["updated"]):
+            raise SystemExit(f"{page['slug']}: updated must be YYYY-MM-DD")
         if not str(page["path"]).startswith("/"):
             raise SystemExit(f"{page['slug']}: path must start with /")
+        page["path"] = _public_path(page["path"])
         if page["path"] in paths:
             raise SystemExit(f"duplicate path {page['path']}")
         paths.add(page["path"])
@@ -214,18 +247,16 @@ def _validate_pages(pages: list[dict], restaurants: dict[str, dict]) -> None:
                 raise SystemExit(f"{page['slug']}: missing {match.group(1)}")
         for match in re.finditer(r"\((/[^)\s]+)\)", page["body"]):
             url = match.group(1)
-            file_path, _fragment = (url.split("#", 1) + [""])[:2]
-            rel = "index.html" if file_path == "/" else file_path.lstrip("/")
-            if not (ROOT / rel).is_file() and rel != "disclosure.html":
-                # disclosure.html is written by this same build.
+            target = _html_path(url.split("#", 1)[0])
+            if not target.is_file() and _public_path(url.split("#", 1)[0]) != "/disclosure":
                 raise SystemExit(f"{page['slug']}: missing link target {url}")
         for slug in page.get("restaurants") or []:
             if slug not in restaurants:
                 raise SystemExit(f"{page['slug']}: unknown restaurant {slug}")
         if page.get("draft"):
             continue
-        target = ROOT / page["path"].lstrip("/")
-        if page["path"] != "/disclosure.html" and not target.is_file():
+        target = _html_path(page["path"])
+        if page["path"] != "/disclosure" and not target.is_file():
             raise SystemExit(
                 f"{page['slug']}: {page['path']} has no HTML file. "
                 "Existing URLs stay put; add the page before publishing the path."
@@ -238,13 +269,16 @@ def _write_sitemap(site: dict, pages: list[dict]) -> None:
         urls.append((entry["path"], entry["lastmod"]))
     published = [page for page in pages if not page.get("draft")]
     for page in sorted(published, key=lambda item: item["path"]):
-        urls.append((page["path"], page["date"]))
+        urls.append((_public_path(page["path"]), _page_lastmod(page)))
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ]
     for path, lastmod in urls:
+        path = _public_path(path)
         loc = SITE_URL + "/" if path == "/" else SITE_URL + path
+        if loc.endswith(".html"):
+            raise SystemExit(f"sitemap loc must be extensionless: {loc}")
         if loc.endswith("//"):
             raise SystemExit(f"bad sitemap loc {loc}")
         lines.append("  <url>")
@@ -277,34 +311,89 @@ def _write_jsonld(pages: list[dict], restaurants: dict[str, dict]) -> None:
             stale.unlink()
 
 
-def _jsonld_graph(page: dict, restaurants: dict[str, dict]) -> list[dict]:
-    url = _absolute(page["path"])
-    org = {
+def _author() -> dict:
+    return {
         "@type": "Organization",
         "name": "Plates Around the World",
         "url": SITE_URL + "/",
     }
+
+
+def _publisher() -> dict:
+    return {
+        "@type": "Organization",
+        "name": "Plates Around the World",
+        "logo": {
+            "@type": "ImageObject",
+            "url": SITE_URL + "/assets/img/icon.jpg",
+        },
+    }
+
+
+def _section_crumb(page: dict) -> tuple[str, str]:
+    lists = page.get("lists") or []
+    # A guide that is also listed under recipes (ramen) stays a guide,
+    # matching the breadcrumb already on the page.
+    if "guides" in lists or page.get("section") == "guide":
+        return "Restaurant Guides", "/guides"
+    if page["type"] == "recipe" or "recipes" in lists:
+        return "Recipes", "/recipes"
+    return "Restaurant Guides", "/guides"
+
+
+def _breadcrumb(page: dict) -> dict:
+    section_name, section_path = _section_crumb(page)
+    return {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": SITE_URL + "/",
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": section_name,
+                "item": _absolute(section_path),
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": page["title"],
+            },
+        ],
+    }
+
+
+def _jsonld_graph(page: dict, restaurants: dict[str, dict]) -> list[dict]:
+    url = _absolute(_public_path(page["path"]))
     image = _absolute("/" + page["image"].lstrip("/"))
+    modified = _page_lastmod(page)
     if page["type"] == "recipe":
         node = {
             "@type": "Recipe",
-            "@id": url + "#recipe",
             "name": page["title"],
             "description": page["description"],
             "image": image,
             "datePublished": page["date"],
-            "author": org,
-            "mainEntityOfPage": url,
+            "dateModified": modified,
+            "recipeCuisine": page.get("recipe_cuisine"),
+            "recipeCategory": page.get("recipe_category"),
             "recipeIngredient": _flat_ingredients(page),
             "recipeInstructions": [
-                {"@type": "HowToStep", "text": step}
-                for step in page.get("instructions") or []
+                {"@type": "HowToStep", "position": index, "text": step}
+                for index, step in enumerate(page.get("instructions") or [], start=1)
             ],
+            "author": _author(),
+            "publisher": _publisher(),
+            "mainEntityOfPage": url,
         }
+        node = {key: value for key, value in node.items() if value not in (None, "")}
+        # Yield and times stay absent until the owner supplies them.
         for key, schema_key in (
             ("recipe_yield", "recipeYield"),
-            ("recipe_cuisine", "recipeCuisine"),
-            ("recipe_category", "recipeCategory"),
             ("prep_time", "prepTime"),
             ("cook_time", "cookTime"),
             ("total_time", "totalTime"),
@@ -314,17 +403,16 @@ def _jsonld_graph(page: dict, restaurants: dict[str, dict]) -> list[dict]:
     else:
         node = {
             "@type": "Article",
-            "@id": url + "#article",
             "headline": page["title"],
             "description": page["description"],
             "image": image,
             "datePublished": page["date"],
-            "dateModified": page["date"],
-            "author": org,
-            "publisher": org,
+            "dateModified": modified,
+            "author": _author(),
+            "publisher": _publisher(),
             "mainEntityOfPage": url,
         }
-    graph = [node]
+    graph = [node, _breadcrumb(page)]
     mentions = []
     for slug in page.get("restaurants") or []:
         place = restaurants[slug]
@@ -393,9 +481,8 @@ def _review_node(place: dict, place_id: str, published: str) -> dict | None:
 def _flat_ingredients(page: dict) -> list[str]:
     flat = []
     for group in page.get("ingredients") or []:
-        name = group.get("group")
         for item in group.get("items") or []:
-            flat.append(f"{name}: {item}" if name else item)
+            flat.append(item)
     return flat
 
 
@@ -403,7 +490,7 @@ def _inject_jsonld(pages: list[dict]) -> None:
     for page in pages:
         if page.get("draft"):
             continue
-        path = ROOT / page["path"].lstrip("/")
+        path = _html_path(page["path"])
         if not path.is_file():
             continue
         html = path.read_text(encoding="utf-8")
@@ -416,15 +503,18 @@ def _inject_jsonld(pages: list[dict]) -> None:
 
 def _inject_gear(pages: list[dict], gear_files: dict, config: dict) -> None:
     for page in pages:
-        path = ROOT / page["path"].lstrip("/")
+        path = _html_path(page["path"])
         if not path.is_file():
             continue
         html = path.read_text(encoding="utf-8")
         if GEAR_START not in html and GEAR_END not in html:
             continue
-        href = "../disclosure.html" if page["path"].startswith("/articles/") else "disclosure.html"
+        href = "/disclosure.html"
         data = gear_files.get(page["slug"], {"slug": page["slug"], "items": []})
         section = gear.render_gear_section(data, config, href)
+        # An empty list omits the section and leaves the frontend's placeholder.
+        if not section.strip():
+            continue
         updated = inject_between(html, GEAR_START, GEAR_END, section)
         if updated is not None and updated != html:
             path.write_text(updated, encoding="utf-8")
@@ -437,7 +527,7 @@ def _write_search_index(pages: list[dict], restaurants: dict, gear_files: dict) 
             continue
         records.append({
             "title": page["title"],
-            "url": page["path"],
+            "url": _public_path(page["path"]),
             "type": page["type"],
             "description": page["description"],
             "text": _plain(page["body"]),
@@ -449,7 +539,7 @@ def _write_search_index(pages: list[dict], restaurants: dict, gear_files: dict) 
             continue
         records.append({
             "title": place["name"],
-            "url": parent["path"],
+            "url": _public_path(parent["path"]),
             "type": "restaurant",
             "description": place["description"],
             "text": place.get("review_body") or "",
@@ -462,7 +552,7 @@ def _write_search_index(pages: list[dict], restaurants: dict, gear_files: dict) 
         body = raw[match.end():] if match else raw
         records.append({
             "title": meta.get("title", "Disclosure"),
-            "url": "/disclosure.html",
+            "url": _public_path(meta.get("path") or "/disclosure"),
             "type": "page",
             "description": meta.get("description", ""),
             "text": _plain(body),
@@ -473,6 +563,29 @@ def _write_search_index(pages: list[dict], restaurants: dict, gear_files: dict) 
     # gear_files is accepted so a future index can mention gear names.
     # With the flag off and empty lists there is nothing to add.
     del gear_files
+
+
+_BANNER_ALT = (
+    "Plates Around the World logo: a terracotta plate with a small world map, "
+    "on a dark background."
+)
+_DISCLOSURE_REDIRECT = "/disclosure /disclosure.html 200"
+
+
+def _read_partial(name: str) -> str:
+    path = ROOT / "partials" / name
+    if not path.is_file():
+        raise SystemExit(f"missing {path.relative_to(ROOT)}")
+    text = path.read_text(encoding="utf-8")
+    # The partials start with a copy-instruction comment. The page uses the markup.
+    stripped = text.lstrip()
+    if stripped.startswith("<!--"):
+        end = stripped.find("-->")
+        if end != -1:
+            text = stripped[end + 3 :].lstrip("\n")
+    if not text.endswith("\n"):
+        text += "\n"
+    return text
 
 
 def _write_disclosure(config: dict) -> None:
@@ -488,23 +601,134 @@ def _write_disclosure(config: dict) -> None:
         body += (
             "<p>As an Amazon Associate I earn from qualifying purchases.</p>"
         )
-    title = meta["title"]
+    title = f"{meta['title']} | Plates Around the World"
     description = meta["description"]
-    canonical = SITE_URL + "/disclosure.html"
-    # New page, so it needs its own head. Existing pages are not rewritten.
-    # Shell matches about.html so the current stylesheet and nav still apply.
-    # The frontend can replace this shell when redesign templates land.
-    html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{escape(title)} | Plates Around the World</title><meta name="description" content="{escape(description)}"><link rel="canonical" href="{canonical}">
-<meta property="og:type" content="website"><meta property="og:title" content="{escape(title)} | Plates Around the World"><meta property="og:description" content="{escape(description)}"><meta property="og:image" content="{SITE_URL}/assets/img/banner.jpg"><meta property="og:url" content="{canonical}"><meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="assets/img/icon.jpg"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css?v=4"></head><body>
-<header><div class="nav"><a class="brand" href="index.html"><img src="assets/img/icon.jpg" alt="">Plates Around the World</a><button class="menu" aria-label="Menu">☰</button>
-<nav><ul><li><a href="guides.html">Restaurant Guides</a></li><li><a href="recipes.html">Recipes</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></nav></div></header>
-<main><div class="page">{body}</div></main>
-<footer><div class="wrap"><p><strong>Plates Around the World</strong> · Restaurants. Recipes. Every corner of the map.</p><p><a href="https://www.instagram.com/platesaroundtheworld_/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.pinterest.com/platesarounddtheworld/" target="_blank" rel="noopener">Pinterest</a> · <a href="https://www.youtube.com/@platesaroundtheworld" target="_blank" rel="noopener">YouTube</a></p><p><a href="mailto:plates.arounddtheworld@gmail.com">plates.arounddtheworld@gmail.com</a></p><p>Guides are researched from public ratings and press coverage unless marked as a first-hand visit. <a href="disclosure.html">Disclosure</a>. © 2026</p></div></footer>
-<script src="assets/main.js"></script></body></html>
-"""
+    canonical = SITE_URL + "/disclosure"
+    header = _read_partial("header.html")
+    footer = _read_partial("footer.html")
+    if "data-site-search" not in header:
+        raise SystemExit("partials/header.html is missing the search hook")
+    css = (ROOT / "assets" / "style.css").read_text(encoding="utf-8")
+    html = (
+        "<!doctype html>\n"
+        '<html lang="en">\n'
+        "<head>\n"
+        '<meta charset="utf-8">\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+        f"<title>{escape(title)}</title>\n"
+        f'<meta name="description" content="{escape(description)}">\n'
+        f'<link rel="canonical" href="{canonical}">\n'
+        "\n"
+        '<meta property="og:site_name" content="Plates Around the World">\n'
+        '<meta property="og:locale" content="en_GB">\n'
+        '<meta property="og:type" content="website">\n'
+        f'<meta property="og:title" content="{escape(title)}">\n'
+        f'<meta property="og:description" content="{escape(description)}">\n'
+        f'<meta property="og:url" content="{canonical}">\n'
+        f'<meta property="og:image" content="{SITE_URL}/assets/img/banner.jpg">\n'
+        '<meta property="og:image:width" content="1280">\n'
+        '<meta property="og:image:height" content="720">\n'
+        f'<meta property="og:image:alt" content="{escape(_BANNER_ALT)}">\n'
+        '<meta property="og:image:type" content="image/jpeg">\n'
+        '<meta name="twitter:card" content="summary_large_image">\n'
+        f'<meta name="twitter:title" content="{escape(title)}">\n'
+        f'<meta name="twitter:description" content="{escape(description)}">\n'
+        f'<meta name="twitter:image" content="{SITE_URL}/assets/img/banner.jpg">\n'
+        f'<meta name="twitter:image:alt" content="{escape(_BANNER_ALT)}">\n'
+        '<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">\n'
+        '<link rel="preload" href="/assets/fonts/fraunces-normal-560-latin.woff2" as="font" type="font/woff2" crossorigin>\n'
+        f"<style>{css}</style>\n"
+        "\n"
+        "</head>\n"
+        "<body>\n"
+        f"{header}"
+        "<main id=\"content\"><div class=\"page\">\n"
+        f"{body}</div></main>\n"
+        f"{footer}"
+        "</body></html>\n"
+    )
+    if 'href="index.html"' in html or "style.css?v=4" in html:
+        raise SystemExit("disclosure page still uses the pre-redesign header")
+    if f'href="{canonical}"' not in html:
+        raise SystemExit("disclosure canonical must be /disclosure")
     (ROOT / "disclosure.html").write_text(html, encoding="utf-8")
+
+
+def _ensure_disclosure_redirect() -> None:
+    path = ROOT / "_redirects"
+    text = path.read_text(encoding="utf-8") if path.is_file() else ""
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    if _DISCLOSURE_REDIRECT in lines or any(line.startswith("/disclosure ") for line in lines):
+        return
+    if text and not text.endswith("\n"):
+        text += "\n"
+    path.write_text(text + _DISCLOSURE_REDIRECT + "\n", encoding="utf-8")
+
+
+def _validate_emitted_jsonld(pages: list[dict]) -> None:
+    for page in pages:
+        if page.get("draft"):
+            continue
+        html_path = _html_path(page["path"])
+        html = html_path.read_text(encoding="utf-8")
+        blocks = re.findall(
+            re.escape(JSONLD_START) + r"(.*?)" + re.escape(JSONLD_END),
+            html,
+            re.DOTALL,
+        )
+        if len(blocks) != 1:
+            raise SystemExit(f"{page['slug']}: expected one JSON-LD marker pair, found {len(blocks)}")
+        match = re.search(
+            r'<script type="application/ld\+json">\s*(.*?)\s*</script>',
+            blocks[0],
+            re.DOTALL,
+        )
+        if not match:
+            raise SystemExit(f"{page['slug']}: JSON-LD marker has no script")
+        payload = json.loads(match.group(1))
+        graph = payload.get("@graph")
+        if not isinstance(graph, list) or not graph:
+            raise SystemExit(f"{page['slug']}: JSON-LD needs an @graph")
+        primary = graph[0]
+        url = _absolute(page["path"])
+        if primary.get("mainEntityOfPage") != url or url.endswith(".html"):
+            raise SystemExit(f"{page['slug']}: mainEntityOfPage must be the extensionless canonical")
+        if page["type"] == "recipe":
+            for key in ("name", "image", "recipeIngredient", "recipeInstructions", "datePublished"):
+                if not primary.get(key):
+                    raise SystemExit(f"{page['slug']}: Recipe is missing {key}")
+            for step in primary["recipeInstructions"]:
+                if step.get("@type") != "HowToStep" or not step.get("text"):
+                    raise SystemExit(f"{page['slug']}: recipe step is incomplete")
+        else:
+            for key in ("headline", "image", "datePublished", "dateModified"):
+                if not primary.get(key):
+                    raise SystemExit(f"{page['slug']}: Article is missing {key}")
+        logo = (primary.get("publisher") or {}).get("logo") or {}
+        if not logo.get("url"):
+            raise SystemExit(f"{page['slug']}: publisher logo is missing")
+        crumbs = [node for node in graph if node.get("@type") == "BreadcrumbList"]
+        if len(crumbs) != 1:
+            raise SystemExit(f"{page['slug']}: BreadcrumbList must be in the same @graph")
+        items = crumbs[0].get("itemListElement") or []
+        if [item.get("name") for item in items[:2]] != ["Home", _section_crumb(page)[0]]:
+            raise SystemExit(f"{page['slug']}: breadcrumb must be Home > section > page")
+        if items[0].get("item") != SITE_URL + "/":
+            raise SystemExit(f"{page['slug']}: home crumb must be the site root")
+        if len(items) != 3 or items[2].get("name") != page["title"] or "item" in items[2]:
+            raise SystemExit(f"{page['slug']}: the current page crumb is the title, with no URL")
+        if any(".html" in str(item.get("item", "")) for item in items):
+            raise SystemExit(f"{page['slug']}: breadcrumb URLs must be extensionless")
+        if page["slug"] == "butter-chicken":
+            if primary.get("recipeCuisine") != "Indian (Punjabi / Delhi)":
+                raise SystemExit("butter chicken cuisine must stay Indian (Punjabi / Delhi)")
+            if primary.get("recipeCategory") != "Main":
+                raise SystemExit("butter chicken course must stay Main")
+            if any(item.startswith(("Marinade:", "Sauce:")) for item in primary["recipeIngredient"]):
+                raise SystemExit("recipe ingredients must stay the published strings")
+        for slug in page.get("restaurants") or []:
+            if not any(str(node.get("@id", "")).endswith("#" + slug) for node in graph):
+                raise SystemExit(f"{page['slug']}: restaurant {slug} dropped from the graph")
 
 
 def _assert_site_urls() -> None:
@@ -514,6 +738,10 @@ def _assert_site_urls() -> None:
         raise SystemExit("sitemap homepage must be " + SITE_URL + "/")
     if "platesaroundtheworld.com" in sitemap:
         raise SystemExit("sitemap still points at platesaroundtheworld.com")
+    if ".html</loc>" in sitemap or ".html<" in sitemap:
+        raise SystemExit("sitemap locs must match the extensionless canonicals")
+    if f"<loc>{SITE_URL}/disclosure</loc>" not in sitemap:
+        raise SystemExit("sitemap must list /disclosure")
 
 
 def _assert_flag_off() -> None:
@@ -567,7 +795,7 @@ def _markdown_html(markdown: str) -> str:
             html.append(f"<h2>{_inline(lines[0][4:].strip())}</h2>")
             continue
         html.append(f"<p>{_inline(' '.join(line.strip() for line in lines))}</p>")
-    return "".join(html)
+    return "\n".join(html) + "\n"
 
 
 def _inline(text: str) -> str:
@@ -577,18 +805,18 @@ def _inline(text: str) -> str:
     )
     cursor = 0
     for match in pattern.finditer(text):
-        parts.append(escape(text[cursor:match.start()]))
+        parts.append(escape(text[cursor:match.start()], quote=False))
         if match.group(1) is not None:
-            parts.append(f"<strong>{escape(match.group(1))}</strong>")
+            parts.append(f"<strong>{escape(match.group(1), quote=False)}</strong>")
         elif match.group(2) is not None:
-            parts.append(f"<em>{escape(match.group(2))}</em>")
+            parts.append(f"<em>{escape(match.group(2), quote=False)}</em>")
         else:
             label, href = match.group(3), match.group(4)
             parts.append(
-                f'<a href="{escape(href, quote=True)}">{escape(label)}</a>'
+                f'<a href="{escape(href, quote=True)}">{escape(label, quote=False)}</a>'
             )
         cursor = match.end()
-    parts.append(escape(text[cursor:]))
+    parts.append(escape(text[cursor:], quote=False))
     return "".join(parts)
 
 

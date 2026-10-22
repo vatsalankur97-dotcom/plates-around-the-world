@@ -2,9 +2,10 @@
 type: article
 slug: where-to-eat-tokyo
 title: "Where to Eat in Tokyo: A First-Timer's Neighbourhood Guide"
-description: "Breakfast at Tsukiji, snacks under the tracks at Ameyoko, yakitori in Shinjuku's memory lane: Tokyo, one neighbourhood at a time."
+description: "Where to eat in Tokyo on a first trip: Tsukiji breakfasts, Ameyoko snacks, Shinjuku's Omoide Yokocho, ramen areas and konbini, one neighbourhood at a time."
 date: 2026-10-16
-path: /articles/where-to-eat-tokyo.html
+updated: 2026-10-22
+path: /articles/where-to-eat-tokyo
 image: assets/img/where-to-eat-tokyo.jpg
 alt: "Red-bean pancake sandwich beside a white teapot, photographed in Asakusa, Tokyo, Oct 2024"
 tag: Researched guide

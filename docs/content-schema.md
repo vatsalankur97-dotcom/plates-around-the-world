@@ -1,8 +1,8 @@
 # Content schema and build interface
 
-Contract for the frontend. Branch: `backend/content-pipeline` (cut from `main` at the netlify.app URL hotfix). `redesign` was not on GitHub when this was written. Rebase onto `redesign` once that branch exists.
+Contract for the frontend. Branch: `backend/content-pipeline`, rebased onto `redesign`. Slots are the ones in `docs/frontend-templates.md`.
 
-The build does **not** write meta, Open Graph, canonical, robots.txt, or alt text. It does **not** rewrite article markup. Those stay in the templates the frontend owns.
+The build does **not** write meta, Open Graph, canonical, robots.txt, or alt text. On article and recipe pages it replaces only the interior of the JSON-LD and gear markers.
 
 ## One site URL
 
@@ -52,8 +52,9 @@ YAML subset only (no anchors, no multiline `|`, no tabs). Lists and one level of
 | `slug` | yes | Must match the filename |
 | `title` | yes | On-page title. Not written into `<title>` or `og:title` |
 | `description` | yes | Lead paragraph. Frontend may copy it into meta |
-| `date` | yes | `YYYY-MM-DD`. Sitemap `lastmod` |
-| `path` | yes | Public path, starting with `/`. Must match an existing HTML file unless the frontend has added JSON-LD markers there |
+| `date` | yes | `YYYY-MM-DD`. Published date |
+| `updated` | no | `YYYY-MM-DD`. Sitemap `lastmod` and JSON-LD `dateModified`. Falls back to `date` |
+| `path` | yes | Extensionless canonical, starting with `/` (`/articles/ramen-101`, `/disclosure`). The HTML file is that path plus `.html`. Both URLs return 200 via `_redirects` |
 | `image` | yes | Root-relative, e.g. `assets/img/lisbon.jpg`. File must exist |
 | `alt` | yes | Stored for the frontend. The build does not write it into `<img>` |
 | `tag` | yes | Label already used on the page (`Researched guide`, `Recipe`, …) |
@@ -86,7 +87,7 @@ All shared fields, plus:
 | `recipe_yield` | no | e.g. `4 servings`. Omitted from JSON-LD when absent |
 | `recipe_cuisine` | no | Only when the copy states it |
 | `recipe_category` | no | Only when the copy states it |
-| `ingredients` | yes | List of `{group, items[]}`. Flattened into `recipeIngredient` |
+| `ingredients` | yes | List of `{group, items[]}`. `recipeIngredient` is the item text, without the group name |
 | `instructions` | yes | List of strings, in order. Become `HowToStep`s |
 | `restaurants` | no | Same as articles |
 | `sources`, `sources_checked`, `sources_suffix` | yes / yes / no | Same as articles |
@@ -142,24 +143,25 @@ The build replaces only the bytes between those two markers with one pretty-prin
 
 - Article pages: `Article`, plus a `Restaurant` (or `FoodEstablishment`) for each linked restaurant, plus a `Review` only when `review_body` is set.
 - Recipe pages: `Recipe`, plus linked restaurants the same way.
-- `Article.headline`, `description`, `image`, `datePublished`, `dateModified`, `author`, `publisher`, `mainEntityOfPage`.
-- `Recipe` uses `recipeIngredient` and `recipeInstructions`. Image and main entity URLs use `SITE_URL`.
-- Reviews have no `reviewRating` unless both rating fields exist. Do not add ratings that were not published.
+- `Article.headline`, `description`, `image`, `datePublished`, `dateModified`, `author`, `publisher` (with the icon logo), `mainEntityOfPage`. The URL is the extensionless canonical.
+- `Recipe` uses `recipeIngredient`, `recipeInstructions` (`HowToStep` with `position`), and, when the copy states them, `recipeCuisine` and `recipeCategory`. Butter chicken keeps `Indian (Punjabi / Delhi)` and `Main`. Yield and times are omitted until the owner supplies them.
+- `BreadcrumbList` is in the same `@graph`: Home, then Restaurant Guides (`/guides`) or Recipes (`/recipes`), then the page title with no URL. A page listed under both (Ramen 101) uses Restaurant Guides.
+- Restaurant and Review nodes follow the breadcrumb. Reviews have no `reviewRating` unless both rating fields exist. Do not add ratings that were not published.
 
 A copy of each graph is also written to `data/jsonld/<slug>.json` so it can be reviewed when the page has no markers yet. That file is not a public schema block until the markers are in the HTML.
 
 ### Snippets the frontend styles and drops in
 
-These are fragments, not pages. The build does not insert them until `docs/frontend-templates.md` on `redesign` names the slots.
+These are fragments, not pages. Search and the newsletter are already in the redesigned header and article shells. The build does not insert a second copy.
 
 | File | Slot contents |
 | --- | --- |
-| `partials/newsletter-form.html` | Netlify Forms form `newsletter`, honeypot `bot-field`, one-line privacy note |
-| `partials/privacy-section.html` | Section `#privacy`: email only, weekly plate, not sold, how to be removed |
-| `partials/search.html` | Label, search input, results list. Loads `assets/search.js` |
+| `partials/newsletter-form.html` | Form `newsletter`, honeypot `bot-field`. `action` stays `[NEWSLETTER_FORM_ACTION: TBD]` |
+| `partials/privacy-section.html` | Section `#privacy`. The tool is not chosen, so the note does not name one |
+| `partials/header.html` | Header and search. Hooks: `[data-site-search]`, `[data-site-search-results]` |
 | `assets/search.js` | Client-side filter of `data/search-index.json` |
-| `partials/footer-disclosure.html` | Footer link to `/disclosure.html` |
-| `partials/gear.css` | `.gear-list`, `.gear-label`, `.gear-meta` for the frontend to paste into `assets/style.css` |
+| `partials/footer.html` | Footer, including the link to `/disclosure.html` |
+| `assets/style.css` | Already contains `.gear-list`, `.gear-label`, `.gear-meta`. There is no separate gear stylesheet |
 
 `assets/main.js` turns `form[data-subscribe]` into a `mailto:`. The Netlify form does **not** use `data-subscribe`, so that handler will not swallow a real submission. The form has to be in published HTML before Netlify will register it. A partial sitting in `partials/` is not registered.
 
@@ -176,9 +178,9 @@ When the published HTML contains both markers, the build replaces only the inter
 <!-- GEAR:END -->
 ```
 
-On a recipe the section is `<h2>What we used</h2>`, meant to sit after Ingredients. The disclosure note is the first thing inside the section, above the first affiliate link. `redesign` was not on GitHub, so these markers are not in the live pages yet.
+On butter chicken the markers already sit after Ingredients. Gear links use `/disclosure.html`. An empty `items` list leaves the placeholder inside the markers.
 
-`/disclosure.html` is generated from `content/disclosure.md` and listed in the sitemap. The Amazon Associates sentence is added only when `networks.amazon.enabled` is true and a tag is set.
+`disclosure.html` is generated from `content/disclosure.md`, `partials/header.html`, and `partials/footer.html`. Its canonical is `/disclosure`. `_redirects` already rewrites that to `disclosure.html` with status 200. The Amazon Associates sentence is added only when `networks.amazon.enabled` is true and a tag is set.
 
 ### Legacy `page()` / `card()` helpers
 
@@ -188,7 +190,7 @@ The port keeps `render_article_html()` and `render_card()` so a generated articl
 
 ## Sitemap
 
-`content/site.json` lists static paths in order: `/`, `/guides.html`, `/recipes.html`, `/about.html`, `/contact.html`, `/disclosure.html`. Content paths follow, sorted by `path`. `lastmod` is the content `date` or the static page's `lastmod`. Drafts are excluded.
+`content/site.json` lists static paths in order: `/`, `/guides`, `/recipes`, `/about`, `/contact`, `/disclosure`. Content paths follow, sorted by `path`, also extensionless. `lastmod` is `updated`, otherwise `date`, or the static page's `lastmod`. Drafts are excluded. Homepage loc is `https://platesaroundtheworld.netlify.app/`.
 
 `robots.txt` is frontend-owned and already contains `Sitemap: https://platesaroundtheworld.netlify.app/sitemap.xml`. Keep that line pointed at `/sitemap.xml` on `SITE_URL`. This build does not edit `robots.txt`.
 
@@ -196,8 +198,8 @@ The port keeps `render_article_html()` and `render_card()` so a generated articl
 
 ```json
 {
-  "title": "Where to eat in Lisbon",
-  "url": "/articles/where-to-eat-lisbon.html",
+  "title": "Where to Eat in Lisbon",
+  "url": "/articles/where-to-eat-lisbon",
   "type": "article",
   "description": "…",
   "text": "plain text of the body"
@@ -209,7 +211,7 @@ Restaurant records use the guide URL in `url` and `type: "restaurant"`, because 
 ## Adding a piece of content
 
 1. Add `content/articles/<slug>.md`, `content/recipes/<slug>.md`, or `content/restaurants/<slug>.json`.
-2. Set `path` to the existing public URL. Do not invent a new article URL without a redirect (there is no `_redirects` file; none of the current URLs changed).
+2. Set `path` to the extensionless canonical (`/articles/<slug>`). `_redirects` already serves that and the `.html` file, both with status 200. Do not invent a new article URL.
 3. Put the image under `assets/img/` and point `image` at it.
 4. Run `python3 scripts/build_articles.py`.
 5. Ask the frontend to add `<!-- JSON-LD:START -->` / `<!-- JSON-LD:END -->` on that page, then run the build again so the script tag is injected.
@@ -222,7 +224,7 @@ Not edited by this pipeline:
 - `assets/style.css`, `assets/main.js`
 - `robots.txt`
 
-`disclosure.html` is new. The build writes it, including a head, because the page did not exist. The frontend can replace that shell when `redesign` templates land.
+`disclosure.html` is written by the build from `partials/header.html` and `partials/footer.html`. Article and recipe HTML is only changed between `<!-- JSON-LD:START -->` / `<!-- JSON-LD:END -->` and `<!-- GEAR:START -->` / `<!-- GEAR:END -->`.
 
 Edited by the build: `sitemap.xml`, `disclosure.html`, `data/jsonld/*.json`, `data/search-index.json`. JSON-LD and gear HTML are written into an existing page only between the markers above.
 

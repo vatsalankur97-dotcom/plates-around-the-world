@@ -1,10 +1,11 @@
 ---
 type: recipe
 slug: butter-chicken
-title: Butter chicken (murgh makhani)
-description: Smoky charred chicken in a silky tomato, butter and cream sauce. Here's the Delhi classic, made at home.
+title: Butter Chicken (Murgh Makhani) at Home
+description: "Butter chicken (murgh makhani) at home: charred yoghurt-marinated chicken in a silky tomato, butter and cream sauce, and the court case over who invented it."
 date: 2026-10-16
-path: /articles/butter-chicken.html
+updated: 2026-10-22
+path: /articles/butter-chicken
 image: assets/img/butter-chicken.jpg
 alt: Butter chicken (murgh makhani)
 tag: Recipe
@@ -13,8 +14,8 @@ card_tag: Recipe
 lists:
   - home
   - recipes
-recipe_yield: 4 servings
-recipe_cuisine: Punjabi
+recipe_cuisine: Indian (Punjabi / Delhi)
+recipe_category: Main
 ingredients:
   - group: Marinade
     items:

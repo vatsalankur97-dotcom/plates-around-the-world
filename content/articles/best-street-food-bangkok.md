@@ -1,10 +1,11 @@
 ---
 type: article
 slug: best-street-food-bangkok
-title: Best street food in Bangkok
-description: From Jay Fai's crab omelette to the night stalls of Yaowarat, the Bangkok plates the critics keep coming back to.
+title: Best Street Food in Bangkok
+description: "Bangkok street food the critics keep coming back to: Jay Fai's crab omelette, Thipsamai's pad thai, oyster omelette and Yaowarat after dark. Sources cited."
 date: 2026-10-16
-path: /articles/best-street-food-bangkok.html
+updated: 2026-10-22
+path: /articles/best-street-food-bangkok
 image: assets/img/bangkok.jpg
 alt: Best street food in Bangkok
 tag: Researched guide

@@ -3,62 +3,98 @@
   "@graph": [
     {
       "@type": "Recipe",
-      "@id": "https://platesaroundtheworld.netlify.app/articles/butter-chicken.html#recipe",
-      "name": "Butter chicken (murgh makhani)",
-      "description": "Smoky charred chicken in a silky tomato, butter and cream sauce. Here's the Delhi classic, made at home.",
+      "name": "Butter Chicken (Murgh Makhani) at Home",
+      "description": "Butter chicken (murgh makhani) at home: charred yoghurt-marinated chicken in a silky tomato, butter and cream sauce, and the court case over who invented it.",
       "image": "https://platesaroundtheworld.netlify.app/assets/img/butter-chicken.jpg",
       "datePublished": "2026-10-16",
+      "dateModified": "2026-10-22",
+      "recipeCuisine": "Indian (Punjabi / Delhi)",
+      "recipeCategory": "Main",
+      "recipeIngredient": [
+        "700 g boneless chicken thighs, in chunks",
+        "200 g thick yoghurt",
+        "1 tbsp ginger-garlic paste",
+        "1½ tsp Kashmiri chilli powder",
+        "1 tsp garam masala",
+        "1 tsp salt, juice of ½ lemon",
+        "3 tbsp butter + 1 tbsp oil",
+        "1 onion, finely chopped (optional)",
+        "1 tbsp ginger-garlic paste",
+        "400 g tomato purée",
+        "1 tsp Kashmiri chilli powder, 1 tsp garam masala",
+        "1 tbsp kasuri methi (dried fenugreek leaves)",
+        "1 tsp sugar or honey",
+        "120 ml double cream",
+        "Salt to taste; coriander to garnish"
+      ],
+      "recipeInstructions": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "text": "Marinate. Mix the marinade ingredients with the chicken and rest it for at least 1 hour, or overnight in the fridge."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "text": "Char. Grill, air-fry or sear the chicken in a very hot pan until charred at the edges and just cooked. Set aside."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "text": "Build the sauce. Melt the butter with the oil, soften the onion for 6–8 min, then add the ginger-garlic paste for 1 min."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "text": "Simmer. Add the tomato purée, chilli and garam masala. Cook for 10–12 min until it thickens and the butter separates at the edges. Blend smooth if you like."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "text": "Finish. Stir in the chicken, the crushed kasuri methi, sugar and cream. Simmer for 5 min and season."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "text": "Serve with naan or jeera rice, a knob of butter and some coriander."
+        }
+      ],
       "author": {
         "@type": "Organization",
         "name": "Plates Around the World",
         "url": "https://platesaroundtheworld.netlify.app/"
       },
-      "mainEntityOfPage": "https://platesaroundtheworld.netlify.app/articles/butter-chicken.html",
-      "recipeIngredient": [
-        "Marinade: 700 g boneless chicken thighs, in chunks",
-        "Marinade: 200 g thick yoghurt",
-        "Marinade: 1 tbsp ginger-garlic paste",
-        "Marinade: 1½ tsp Kashmiri chilli powder",
-        "Marinade: 1 tsp garam masala",
-        "Marinade: 1 tsp salt, juice of ½ lemon",
-        "Sauce: 3 tbsp butter + 1 tbsp oil",
-        "Sauce: 1 onion, finely chopped (optional)",
-        "Sauce: 1 tbsp ginger-garlic paste",
-        "Sauce: 400 g tomato purée",
-        "Sauce: 1 tsp Kashmiri chilli powder, 1 tsp garam masala",
-        "Sauce: 1 tbsp kasuri methi (dried fenugreek leaves)",
-        "Sauce: 1 tsp sugar or honey",
-        "Sauce: 120 ml double cream",
-        "Sauce: Salt to taste; coriander to garnish"
-      ],
-      "recipeInstructions": [
-        {
-          "@type": "HowToStep",
-          "text": "Marinate. Mix the marinade ingredients with the chicken and rest it for at least 1 hour, or overnight in the fridge."
-        },
-        {
-          "@type": "HowToStep",
-          "text": "Char. Grill, air-fry or sear the chicken in a very hot pan until charred at the edges and just cooked. Set aside."
-        },
-        {
-          "@type": "HowToStep",
-          "text": "Build the sauce. Melt the butter with the oil, soften the onion for 6–8 min, then add the ginger-garlic paste for 1 min."
-        },
-        {
-          "@type": "HowToStep",
-          "text": "Simmer. Add the tomato purée, chilli and garam masala. Cook for 10–12 min until it thickens and the butter separates at the edges. Blend smooth if you like."
-        },
-        {
-          "@type": "HowToStep",
-          "text": "Finish. Stir in the chicken, the crushed kasuri methi, sugar and cream. Simmer for 5 min and season."
-        },
-        {
-          "@type": "HowToStep",
-          "text": "Serve with naan or jeera rice, a knob of butter and some coriander."
+      "publisher": {
+        "@type": "Organization",
+        "name": "Plates Around the World",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://platesaroundtheworld.netlify.app/assets/img/icon.jpg"
         }
-      ],
-      "recipeYield": "4 servings",
-      "recipeCuisine": "Punjabi"
+      },
+      "mainEntityOfPage": "https://platesaroundtheworld.netlify.app/articles/butter-chicken"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://platesaroundtheworld.netlify.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Recipes",
+          "item": "https://platesaroundtheworld.netlify.app/recipes"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Butter Chicken (Murgh Makhani) at Home"
+        }
+      ]
     }
   ]
 }

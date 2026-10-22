@@ -1,6 +1,6 @@
 # Backend: content, build, search, gear
 
-`redesign` was not on GitHub while this was written. The branch is `backend/content-pipeline`, cut from current `main`. Do not merge it, and do not open a pull request: Netlify Deploy Previews are on and each one spends credits.
+This branch is `backend/content-pipeline`, rebased onto `redesign`. Do not merge it, and do not open a pull request: Netlify Deploy Previews are on and each one spends credits.
 
 ## Run the build
 
@@ -23,7 +23,7 @@ Field names, paths, and the JSON-LD markers are in `docs/content-schema.md`.
 ## Add an article, recipe, or restaurant
 
 1. Create `content/articles/<slug>.md`, `content/recipes/<slug>.md`, or `content/restaurants/<slug>.json`.
-2. Set `path` to the public URL that already exists (`/articles/<slug>.html`). Do not invent a new article URL. Nothing in the current set changed, so there is no `_redirects` file.
+2. Set `path` to the extensionless canonical (`/articles/<slug>`). `_redirects` serves that and the `.html` file, both with status 200. Do not invent a new article URL.
 3. Put the image in `assets/img/` and set `image` to that root-relative path. `alt` is stored for the frontend; the build does not write it into the page.
 4. Run the build. Fix any error. It fails on a missing image, an unknown restaurant slug, or front matter it cannot parse.
 5. Ask the frontend to put this in the page. The build replaces only the interior, and doing it twice is safe:
@@ -55,11 +55,11 @@ Faces are a separate step. This script does not crop or blur them. Crop or blur 
 
 ## Search
 
-`data/search-index.json` is the index (title, url, type, description, text). `partials/search.html` and `assets/search.js` filter it in the browser. Drop the partial into a template. No paid search, no Pagefind binary.
+`data/search-index.json` is the index (title, url, type, description, text). URLs are the extensionless canonicals. The header already has `[data-site-search]` and `[data-site-search-results]`. `assets/search.js` filters the index in the browser. No paid search, no Pagefind binary.
 
 ## Newsletter
 
-`partials/newsletter-form.html` is a Netlify Form named `newsletter` with honeypot `bot-field`. `partials/privacy-section.html` is the `#privacy` note: email only, weekly plate, not sold, how to be removed.
+`partials/newsletter-form.html` is the form named `newsletter`, with honeypot `bot-field`. Its action stays `[NEWSLETTER_FORM_ACTION: TBD]`. `partials/privacy-section.html` is the `#privacy` note: email only, not sold, how to be removed. It does not name a sending tool.
 
 Do not put `data-subscribe` on that form. `assets/main.js` turns those forms into a `mailto:`. Netlify will not see the form until the snippet is in published HTML.
 
@@ -86,20 +86,13 @@ To turn links on later, after a programme is approved:
 2. For Amazon, set `networks.amazon.enabled` to `true` and `tag` to the Associates tracking id, then set `AFFILIATE_LINKS_ENABLED` to `true`. The adapter appends `?tag=` and nothing else. A blank tag falls back to the plain URL and does not emit `tag=`.
 3. For EarnKaro or Cuelinks, paste the dashboard's prebuilt `https` URL into `affiliate_url` and set that network's `enabled` to `true`. Do not guess the format.
 4. Run the build. Affiliate links get `rel="sponsored nofollow noopener"` and the visible text `(affiliate link)`. The disclosure note is the first thing in the section, above the first link. The Amazon sentence is added on the disclosure page and in the note only when Amazon is actually enabled.
-5. Ask the frontend to add the gear markers on the recipe, after Ingredients:
+The gear markers are already on `articles/butter-chicken.html`, after Ingredients. `.gear-list`, `.gear-label`, and `.gear-meta` are in `assets/style.css`. An empty list leaves the placeholder comment in place.
 
-```html
-<!-- GEAR:START -->
-<!-- GEAR:END -->
-```
-
-Paste `partials/gear.css` into `assets/style.css` when they do. This branch does not edit `style.css` or the `?v=4` query.
-
-`partials/footer-disclosure.html` is the footer link. `disclosure.html` already includes it. The other footers do not, because `redesign` had no slot and those templates are frontend-owned.
+`partials/footer.html` already links to `/disclosure.html`. `disclosure.html` is rebuilt from that partial and `partials/header.html`, with canonical `/disclosure`.
 
 ## CI
 
-`.github/workflows/ci.yml` runs on pull requests to `main` and `redesign`, and on pushes to every other branch. It runs the build, fails if the build would change committed files, installs exiftool, and fails if a published image still has EXIF, GPS, XMP, or IPTC. It then runs lychee offline on HTML. External URLs are not checked. `templates/` is excluded because `SLUG.jpg` is a placeholder. `partials/` and `docs/` are excluded because they are snippets, not pages.
+`.github/workflows/ci.yml` runs on pull requests to `main` and `redesign`, and on pushes to every other branch. It runs the build, fails if the build would change committed files, installs exiftool, and fails if a published image still has EXIF, GPS, XMP, or IPTC. It then runs lychee offline on HTML. Root-absolute links such as `/guides` resolve with `--root-dir` and `--fallback-extensions html`, so the extensionless canonicals are checked against the `.html` files. The newsletter placeholder `[NEWSLETTER_FORM_ACTION: TBD]` is excluded. `templates/`, `partials/`, `docs/`, and `content/bodies/` are excluded. External URLs are not checked.
 
 Locally, after a content change, run the build and commit the generated files before pushing. A second build should leave `git diff` empty.
 

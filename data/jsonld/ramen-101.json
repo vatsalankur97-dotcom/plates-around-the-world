@@ -3,9 +3,8 @@
   "@graph": [
     {
       "@type": "Article",
-      "@id": "https://platesaroundtheworld.netlify.app/articles/ramen-101.html#article",
       "headline": "Ramen 101: Shoyu, Shio, Miso & Tonkotsu Explained",
-      "description": "Four bowls, one cheat-sheet: what shoyu, shio, miso and tonkotsu actually mean, where each comes from, and which one to order first.",
+      "description": "Shoyu, shio, miso or tonkotsu? What each ramen style means, where it comes from (Tokyo, Hakodate, Sapporo, Fukuoka) and which bowl to order first in Japan.",
       "image": "https://platesaroundtheworld.netlify.app/assets/img/ramen-101.jpg",
       "datePublished": "2026-10-16",
       "dateModified": "2026-10-16",
@@ -17,9 +16,34 @@
       "publisher": {
         "@type": "Organization",
         "name": "Plates Around the World",
-        "url": "https://platesaroundtheworld.netlify.app/"
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://platesaroundtheworld.netlify.app/assets/img/icon.jpg"
+        }
       },
-      "mainEntityOfPage": "https://platesaroundtheworld.netlify.app/articles/ramen-101.html"
+      "mainEntityOfPage": "https://platesaroundtheworld.netlify.app/articles/ramen-101"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://platesaroundtheworld.netlify.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Restaurant Guides",
+          "item": "https://platesaroundtheworld.netlify.app/guides"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Ramen 101: Shoyu, Shio, Miso & Tonkotsu Explained"
+        }
+      ]
     }
   ]
 }

@@ -2,9 +2,9 @@
 type: article
 slug: ramen-101
 title: "Ramen 101: Shoyu, Shio, Miso & Tonkotsu Explained"
-description: "Four bowls, one cheat-sheet: what shoyu, shio, miso and tonkotsu actually mean, where each comes from, and which one to order first."
+description: "Shoyu, shio, miso or tonkotsu? What each ramen style means, where it comes from (Tokyo, Hakodate, Sapporo, Fukuoka) and which bowl to order first in Japan."
 date: 2026-10-16
-path: /articles/ramen-101.html
+path: /articles/ramen-101
 image: assets/img/ramen-101.jpg
 alt: A bowl of ramen with soft-boiled eggs, chāshū and nori (stock photo)
 tag: Researched guide

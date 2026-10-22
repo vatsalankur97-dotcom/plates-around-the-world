@@ -1,15 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Hand-maintained on redesign. Backend's build overwrites sitemap.xml from content/site.json and uses the .html paths stored there. Both forms return 200. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://platesaroundtheworld.netlify.app/</loc><lastmod>2026-10-22</lastmod></url>
-<url><loc>https://platesaroundtheworld.netlify.app/guides</loc><lastmod>2026-10-22</lastmod></url>
-<url><loc>https://platesaroundtheworld.netlify.app/recipes</loc><lastmod>2026-10-22</lastmod></url>
-<url><loc>https://platesaroundtheworld.netlify.app/about</loc><lastmod>2026-10-22</lastmod></url>
-<url><loc>https://platesaroundtheworld.netlify.app/contact</loc><lastmod>2026-10-22</lastmod></url>
-<url><loc>https://platesaroundtheworld.netlify.app/disclosure</loc><lastmod>2026-10-22</lastmod></url>
-<url><loc>https://platesaroundtheworld.netlify.app/articles/best-street-food-bangkok</loc><lastmod>2026-10-22</lastmod></url>
-<url><loc>https://platesaroundtheworld.netlify.app/articles/where-to-eat-lisbon</loc><lastmod>2026-10-22</lastmod></url>
-<url><loc>https://platesaroundtheworld.netlify.app/articles/butter-chicken</loc><lastmod>2026-10-22</lastmod></url>
-<url><loc>https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo</loc><lastmod>2026-10-22</lastmod></url>
-<url><loc>https://platesaroundtheworld.netlify.app/articles/ramen-101</loc><lastmod>2026-10-22</lastmod></url>
+  <url>
+    <loc>https://platesaroundtheworld.netlify.app/</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://platesaroundtheworld.netlify.app/guides</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://platesaroundtheworld.netlify.app/recipes</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://platesaroundtheworld.netlify.app/about</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://platesaroundtheworld.netlify.app/contact</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://platesaroundtheworld.netlify.app/disclosure</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://platesaroundtheworld.netlify.app/articles/best-street-food-bangkok</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://platesaroundtheworld.netlify.app/articles/butter-chicken</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://platesaroundtheworld.netlify.app/articles/ramen-101</loc>
+    <lastmod>2026-10-16</lastmod>
+  </url>
+  <url>
+    <loc>https://platesaroundtheworld.netlify.app/articles/where-to-eat-lisbon</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
 </urlset>

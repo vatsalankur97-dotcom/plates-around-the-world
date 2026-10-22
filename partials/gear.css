@@ -1,6 +1,0 @@
-/* Paste into assets/style.css when the gear section is wired up.
-   .note already exists. Do not bump the stylesheet query from this file;
-   that query lives on the frontend templates. */
-.gear-list { list-style: none; padding: 0; }
-.gear-label { font-size: .85rem; color: #666; }
-.gear-meta { display: block; font-size: .85rem; color: #666; }
