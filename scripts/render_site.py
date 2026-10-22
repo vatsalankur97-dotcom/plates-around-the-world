@@ -117,7 +117,7 @@ def header(current: str | None) -> str:
     return f"""<a class="skip" href="#content">Skip to content</a>
 <header>
 <div class="nav">
-<a class="brand" href="/"><img class="mark" src="/assets/img/icon.jpg" alt="" width="720" height="720">Plates Around the World</a>
+<a class="brand" href="/"><img class="mark" src="/assets/img/icon.jpg" srcset="/assets/img/opt/icon-84.webp 84w" sizes="42px" alt="" width="42" height="42">Plates Around the World</a>
 <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">Menu</button>
 <nav id="site-nav" aria-label="Primary"><ul>
 {''.join(items)}
@@ -180,12 +180,11 @@ def head(title, description, path, og_type, image, iw, ih, ialt, jsonld=None, ro
 <meta name="twitter:image:alt" content="{esc(ialt)}">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/fonts/fraunces-normal-560-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/inter-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=6">
+<style>__CSS__</style>
 {ld}
 </head>
 <body>
-"""
+""".replace("__CSS__", (ROOT / "assets" / "style.css").read_text(encoding="utf-8"))
 
 
 def org():
@@ -542,7 +541,7 @@ def pins() -> str:
         html_pins.append(f'<a class="pin" href="{href}" style="left:{left};top:{top}"><i></i><span>{label}</span></a>')
     for left, top, label in soon:
         html_pins.append(f'<span class="pin soon" style="left:{left};top:{top}"><i></i><span>{label}</span></span>')
-    return f'<div class="worldmap"><img src="/assets/img/world.svg" alt="" width="360" height="140">{"".join(html_pins)}</div>'
+    return f'<div class="worldmap"><img src="/assets/img/world.svg" alt="" width="360" height="140" loading="lazy">{"".join(html_pins)}</div>'
 
 
 def homepage(cards) -> str:

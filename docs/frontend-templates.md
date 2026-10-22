@@ -71,7 +71,7 @@ Placement: the home band; Tokyo after Good to know; Ramen after the cheat-sheet 
 
 ## Gear styles
 
-`partials/gear.css` is folded into `assets/style.css` as `.gear-list`, `.gear-item`, `.gear-label`, `.gear-meta`, `.gear-why`, and `.gear-disclosure`. Colours use the site tokens. The stylesheet query is `?v=6`.
+`partials/gear.css` is folded into `assets/style.css` as `.gear-list`, `.gear-item`, `.gear-label`, `.gear-meta`, `.gear-why`, and `.gear-disclosure`. Colours use the site tokens. `scripts/render_site.py` inlines `assets/style.css` in each page so the first paint does not wait on a stylesheet request. Edit the CSS file, then re-run the renderer.
 
 ## Page shape
 

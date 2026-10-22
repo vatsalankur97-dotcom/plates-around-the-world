@@ -49,6 +49,12 @@
     $$(".rv").forEach((el) => el.classList.add("in"));
   }
   document.querySelector("[data-print]")?.addEventListener("click", () => print());
+  const plateMap = document.querySelector(".plate-map span");
+  if (plateMap) {
+    const paintMap = () => { plateMap.style.backgroundImage = "url(\"/assets/img/world.svg\")"; };
+    if (reduce) paintMap();
+    else addEventListener("load", () => setTimeout(paintMap, 700));
+  }
   const plate = $(".spinplate");
   const spin = $("#spin");
   if (!plate || !spin) return;

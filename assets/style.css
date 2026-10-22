@@ -48,10 +48,10 @@ nav a:hover,nav a[aria-current="page"]{background:rgba(242,177,52,.18);color:var
 .eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--s);font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:.78rem}
 .eyebrow::before{content:"";width:28px;height:1px;background:var(--s)}
 .hero h1{color:var(--cr);font-size:clamp(2.7rem,6.4vw,5.6rem);line-height:.96;margin:14px 0 12px;font-weight:560}
-.hero h1 em{font-style:italic;color:var(--s)}
-.tagline{margin:0 0 18px;font-family:var(--serif);font-style:italic;font-size:clamp(1.2rem,2vw,1.55rem);color:rgba(251,246,236,.88)}
+.hero h1 em{font-style:normal;color:var(--s)}
+.tagline{margin:0 0 18px;font-family:var(--serif);font-style:normal;font-size:clamp(1.2rem,2vw,1.55rem);color:rgba(251,246,236,.88)}
 .rot{margin:0 0 18px;font-family:var(--serif);font-size:clamp(1.15rem,2vw,1.45rem);color:rgba(251,246,236,.86)}
-.rot b{display:inline-block;min-width:10ch;color:var(--s);font-style:italic;font-weight:560}
+.rot b{display:inline-block;min-width:10ch;color:var(--s);font-style:normal;font-weight:560}
 .lead{max-width:38rem;color:rgba(251,246,236,.78);margin:0 0 28px}
 .btns{display:flex;gap:12px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--t-deep);color:#fff;text-decoration:none;border:0;border-radius:999px;padding:14px 22px;min-height:48px;font:600 1rem/1 var(--sans);cursor:pointer}
@@ -65,19 +65,19 @@ nav a:hover,nav a[aria-current="page"]{background:rgba(242,177,52,.18);color:var
 .steam path:nth-child(2){animation-delay:1.2s}
 .steam path:nth-child(3){animation-delay:2.2s}
 .plate-map{position:absolute;left:50%;top:57%;width:58%;height:58%;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden;background:#1c1c1a}
-.plate-map span{position:absolute;inset:-20% -40%;background:url("/assets/img/world.svg") 0 46% / 220px 86px repeat-x;animation:pan 28s linear infinite}
+.plate-map span{position:absolute;inset:-20% -40%;background:transparent 0 46% / 220px 86px repeat-x;animation:pan 28s linear infinite}
 @keyframes draw{to{stroke-dashoffset:0}}
 @keyframes steam{0%{opacity:0;transform:translateY(12px)}30%{opacity:.8}100%{opacity:0;transform:translateY(-46px)}}
 @keyframes pan{to{background-position:-220px 46%}}
 .marquee{background:var(--t-deep);color:var(--cr);overflow:hidden;padding:16px 0;transform:rotate(-1.2deg);margin:8px -12px 0}
-.marquee .track{display:flex;width:max-content;animation:mq 42s linear infinite;font-family:var(--serif);font-style:italic;font-size:clamp(1.25rem,2.4vw,1.8rem);white-space:nowrap}
+.marquee .track{display:flex;width:max-content;animation:mq 42s linear infinite;font-family:var(--serif);font-style:normal;font-size:clamp(1.25rem,2.4vw,1.8rem);white-space:nowrap}
 .marquee span{padding:0 18px}
 @keyframes mq{to{transform:translateX(-50%)}}
 section{padding:84px 0}
 .sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:28px}
 .sec-head p,.sub{color:var(--muted);max-width:42rem}
 h2{font-size:clamp(2rem,4vw,3.2rem);line-height:1.05;margin:6px 0 0}
-h2 em{font-style:italic;color:var(--t)}
+h2 em{font-style:normal;color:var(--t)}
 .kicker{color:var(--o);font-size:.75rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
 .hub{margin-top:36px}
 .hub h2{font-size:clamp(1.6rem,3vw,2.2rem)}
