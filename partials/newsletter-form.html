@@ -1,0 +1,18 @@
+<!-- NEWSLETTER:START -->
+<!-- Backend file: partials/newsletter-form.html
+     Conflict, left visible on purpose: that file sets action="/" and the netlify
+     attribute, and its note says "weekly plate". Approved copy (22 Oct 2026)
+     keeps this placeholder action and does not promise a weekly send.
+     Do not add data-subscribe. assets/main.js turns that attribute into a mailto. -->
+<form name="newsletter" method="POST" action="[NEWSLETTER_FORM_ACTION: TBD]">
+  <p hidden>
+    <label>Leave this empty: <input name="bot-field"></label>
+  </p>
+  <input type="hidden" name="form-name" value="newsletter">
+  <label for="newsletter-email">Email</label>
+  <input id="newsletter-email" type="email" name="email" required autocomplete="email">
+  <button class="btn" type="submit">Subscribe</button>
+  <p class="privacy-note">We only use your email to send the newsletter. <a href="#privacy">Privacy note</a>.</p>
+</form>
+<!-- NEWSLETTER:END -->
+
