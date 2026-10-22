@@ -35,6 +35,24 @@ Field names, paths, and the JSON-LD markers are in `docs/content-schema.md`.
 
 `templates/README.md` still describes copying HTML by hand. Use this file instead.
 
+## Photo privacy
+
+Run this on `assets/img/` (including `assets/img/trip/`) before committing a photo:
+
+```bash
+python3 scripts/strip_exif.py
+python3 scripts/strip_exif.py --check
+```
+
+`scripts/strip_exif.py` removes EXIF, GPS, XMP, and IPTC in place and keeps the ICC colour profile. It applies the EXIF orientation to the pixels, then drops the tag, so the photo is not rotated twice.
+
+This is a dev dependency. CI installs exiftool and runs `--check`, and fails if a committed image still has EXIF or GPS data. The Netlify production build stays `python3 scripts/build_articles.py` (stdlib only) and does not install the tool.
+
+- Preferred: `exiftool` (`libimage-exiftool-perl`) and `jpegtran` (`libjpeg-turbo-progs`). Metadata edits are lossless. JPEG orientation uses `jpegtran -copy icc`, which keeps the colour profile and does not recompress the photo.
+- Fallback: `pip install Pillow`, when exiftool or jpegtran is missing. Pillow re-encodes JPEG (`quality="keep"` when the pixels are not rotated, quality 95 when they are). Animated GIFs are not rewritten with Pillow.
+
+Faces are a separate step. This script does not crop or blur them. Crop or blur anyone other than the owner before publishing, unless they have consented. That is an editorial decision, done by hand.
+
 ## Search
 
 `data/search-index.json` is the index (title, url, type, description, text). `partials/search.html` and `assets/search.js` filter it in the browser. Drop the partial into a template. No paid search, no Pagefind binary.
@@ -81,7 +99,7 @@ Paste `partials/gear.css` into `assets/style.css` when they do. This branch does
 
 ## CI
 
-`.github/workflows/ci.yml` runs on pull requests to `main` and `redesign`, and on pushes to every other branch. It runs the build, fails if the build would change committed files, then runs lychee offline on HTML. External URLs are not checked. `templates/` is excluded because `SLUG.jpg` is a placeholder. `partials/` and `docs/` are excluded because they are snippets, not pages.
+`.github/workflows/ci.yml` runs on pull requests to `main` and `redesign`, and on pushes to every other branch. It runs the build, fails if the build would change committed files, installs exiftool, and fails if a published image still has EXIF, GPS, XMP, or IPTC. It then runs lychee offline on HTML. External URLs are not checked. `templates/` is excluded because `SLUG.jpg` is a placeholder. `partials/` and `docs/` are excluded because they are snippets, not pages.
 
 Locally, after a content change, run the build and commit the generated files before pushing. A second build should leave `git diff` empty.
 
