@@ -83,19 +83,25 @@ Listing cards are a `div.tile` so the credit line (which contains links) is not 
 
 Both `/articles/butter-chicken` and `/articles/butter-chicken.html` return 200. Canonicals, the sitemap, and internal links use the extensionless form. The homepage canonical is `/`. `_redirects` uses `200` rewrites, not `301`.
 
-## Conflicts with `backend/content-pipeline`
+## Content build
 
-Do not merge that branch over this one. Rebase it onto `redesign`, then keep the HTML from this branch and re-run the content build so it only fills the markers.
+`backend/content-pipeline` is merged. `python3 scripts/build_articles.py` is the Netlify command in `netlify.toml`. Deploy previews and branch deploys set `ignore = "exit 0"`. Production does not. Publish stays `.`.
 
-1. **Article HTML.** This branch rewrote the pages. The pipeline branch still has the old article markup plus its own JSON-LD. Keep these pages. Run the build to replace the JSON-LD interior.
-2. **JSON-LD contents.** The hand-written graphs include `BreadcrumbList`. The build's graph does not, and it will delete the breadcrumb node when it replaces the interior. Say if breadcrumbs should be emitted too.
-3. **Canonicals vs `path`.** Canonicals here are extensionless (`/articles/ramen-101`, homepage `/`). Content `path` and the pipeline sitemap use `/articles/ramen-101.html`. Both URLs return 200. The build does not edit canonical tags. After a build, JSON-LD `mainEntityOfPage` may be the `.html` URL while the canonical is extensionless.
-4. **Sitemap.** `sitemap.xml` here is hand-maintained and extensionless, with `lastmod` 2026-10-22. The build overwrites it from `content/site.json`.
-5. **`netlify.toml`.** Not edited here. The pipeline adds `command = "python3 scripts/build_articles.py"` and `ignore = "exit 0"` for deploy previews and branch deploys. That file will come back on rebase. This repo still has no build command until that lands.
-6. **Newsletter.** The pipeline partial uses `action="/"` and the `netlify` attribute, and says "weekly plate". Approved copy forbids a weekly promise and sets `action="[NEWSLETTER_FORM_ACTION: TBD]"`. The `netlify` attribute is omitted until the owner picks the tool. Field names match the partial.
-7. **Privacy.** The visible block is `<details id="privacy" class="privacy">`, a short note under the newsletter. It does not say the list is weekly and it does not say Netlify stores the address. `assets/main.js` opens it when a link to `#privacy` is clicked. The removal email is unchanged.
-8. **Disclosure shell.** `_write_disclosure` hardcodes the pre-redesign header and a relative `disclosure.html` link. Copy `partials/header.html` and `partials/footer.html`. The footer link here is `/disclosure.html`.
-9. **Gear disclosure URL.** `gear.py` links articles at `../disclosure.html`. The footer uses `/disclosure.html`. Both resolve. Root-relative is the one that also works if a page moves.
-10. **Search URLs.** The starter index uses extensionless URLs. The build writes whatever `path` says, currently `.html`.
-11. **`robots.txt`.** Still points at `https://platesaroundtheworld.netlify.app/sitemap.xml`. Also disallows `/templates/`, `/partials/`, `/scripts/`, `/content/`, and `/docs/`. The pipeline does not edit this file.
-12. **Recipe times.** The visible card shows Cuisine and Course, then one line: `Times and servings: owner to supply`. Yield, prep, marinate, cook, total, diet, difficulty, and equipment stay `OWNER TO SUPPLY` on `span[data-field]` inside `.recipe-slots` (visually hidden, with a `RECIPE-SLOTS` comment). Do not estimate them. When a value is real, put it in the visible `dl` and update that span. Cuisine `Indian (Punjabi / Delhi)` and course `Main` are the approved labels. JSON-LD omits yield and the times.
+Running the build twice changes nothing. It rewrites only:
+
+- the interior of `<!-- JSON-LD:START -->` … `<!-- JSON-LD:END -->` on each published article and recipe
+- the interior of `<!-- GEAR:START -->` … `<!-- GEAR:END -->` when that page has gear items
+- `data/jsonld/<slug>.json`
+- `sitemap.xml`
+- `data/search-index.json`
+- `disclosure.html`, from `content/disclosure.md` plus `partials/header.html` and `partials/footer.html`
+
+The graph is `Article` or `Recipe`, plus `BreadcrumbList`, plus `Restaurant` and `Review` when the content lists a place. `mainEntityOfPage` and sitemap locs are extensionless. The homepage canonical stays `/`. Breadcrumb, canonical, and search-index URLs do not use `.html`. Both the extensionless URL and the `.html` file still return 200 via `_redirects`.
+
+`data/gear/butter-chicken.json` has an empty `items` list, so the gear interior stays the placeholder. The disclosure link the helper would use is `/disclosure.html`.
+
+The newsletter action is still `[NEWSLETTER_FORM_ACTION: TBD]`. The form has no `netlify` attribute and does not promise a weekly send. Privacy is the `<details id="privacy" class="privacy">` note. Recipe times and yield stay `OWNER TO SUPPLY` outside the JSON-LD script; the `Recipe` node has cuisine `Indian (Punjabi / Delhi)` and category `Main`, and no yield or times.
+
+`robots.txt` still points at `https://platesaroundtheworld.netlify.app/sitemap.xml` and disallows `/templates/`, `/partials/`, `/scripts/`, `/content/`, and `/docs/`. The build does not edit it.
+
+Keep reading hubs are `.more-link` rows. The homepage guide and recipe rows use `.grid-2`. Card and Instagram pictures fill their frames. The search label is `.sr`, the results list is hidden until it has hits, and viewports under 760px open search from `.search-toggle`.
