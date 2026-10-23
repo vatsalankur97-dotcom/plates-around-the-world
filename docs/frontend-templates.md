@@ -16,7 +16,7 @@ The live pages are static HTML. `python3 scripts/render_site.py` writes shell ma
 | `partials/footer-disclosure.html` | The single disclosure link. Already in the footer. |
 | `templates/article-template.html` | Empty article skeleton. `noindex`. No sample city. |
 
-`disclosure.html` is generated here with that header and footer so `/disclosure` is not a 404 before the content build runs. `_write_disclosure` in `scripts/build_articles.py` still pastes the old header (relative `index.html`, Google Fonts, `style.css?v=4`). On rebase, read `partials/header.html` and `partials/footer.html` instead of that string.
+`scripts/build_articles.py` writes `disclosure.html` from `content/disclosure.md` and these partials. The header it pastes is `partials/header.html`, not the old relative shell.
 
 ## Slots the content build fills
 
