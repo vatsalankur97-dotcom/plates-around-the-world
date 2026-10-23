@@ -1,0 +1,13 @@
+{
+  "slug": "raan-jay-fai",
+  "name": "Raan Jay Fai",
+  "description": "Chef Jay Fai cooks over charcoal in her trademark ski goggles. The shop at 327 Maha Chai Road holds one Michelin star, retained in the 2026 Thailand guide.",
+  "address": {
+    "street": "327 Maha Chai Road",
+    "locality": "Bangkok",
+    "country": "Thailand"
+  },
+  "serves_cuisine": "Thai",
+  "featured_in": "best-street-food-bangkok",
+  "review_body": "Chef Jay Fai cooks over charcoal in her trademark ski goggles. Her shop at 327 Maha Chai Road holds one Michelin star, retained in the 2026 Thailand guide. Michelin singles out the crispy crab omelette and the yellow-curry prawns."
+}

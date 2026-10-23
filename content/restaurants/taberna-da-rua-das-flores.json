@@ -1,0 +1,14 @@
+{
+  "slug": "taberna-da-rua-das-flores",
+  "name": "Taberna da Rua das Flores",
+  "description": "A small Chiado tavern at Rua das Flores 103 serving a daily-changing menu of Portuguese petiscos. No reservations, and closed on Sundays.",
+  "url": "https://tberna.com/",
+  "address": {
+    "street": "Rua das Flores 103",
+    "locality": "Lisbon",
+    "country": "Portugal"
+  },
+  "serves_cuisine": "Portuguese",
+  "featured_in": "where-to-eat-lisbon",
+  "review_body": "A small Chiado tavern serving a daily-changing menu of Portuguese petiscos, at Rua das Flores 103. No reservations, and it's closed on Sundays."
+}

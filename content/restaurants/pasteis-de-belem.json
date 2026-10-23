@@ -1,0 +1,14 @@
+{
+  "slug": "pasteis-de-belem",
+  "name": "Pastéis de Belém",
+  "description": "Baking since 1837 to a closely guarded recipe at Rua de Belém 84–92, near the Jerónimos Monastery.",
+  "url": "https://pasteisdebelem.pt/en/",
+  "address": {
+    "street": "Rua de Belém 84–92",
+    "locality": "Lisbon",
+    "country": "Portugal"
+  },
+  "serves_cuisine": "Portuguese",
+  "featured_in": "where-to-eat-lisbon",
+  "review_body": "Baking since 1837 to a closely guarded recipe at Rua de Belém 84–92, near the Jerónimos Monastery, this bakery is the name food writers reach for when it comes to pastéis de nata."
+}

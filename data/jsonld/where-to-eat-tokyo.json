@@ -1,0 +1,79 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Where to Eat in Tokyo: A First-Timer's Neighbourhood Guide",
+      "description": "Where to eat in Tokyo on a first trip: Tsukiji breakfasts, Ameyoko snacks, Shinjuku's Omoide Yokocho, ramen areas and konbini, one neighbourhood at a time.",
+      "image": "https://platesaroundtheworld.netlify.app/assets/img/where-to-eat-tokyo.jpg",
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-22",
+      "author": {
+        "@type": "Organization",
+        "name": "Plates Around the World",
+        "url": "https://platesaroundtheworld.netlify.app/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Plates Around the World",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://platesaroundtheworld.netlify.app/assets/img/icon.jpg"
+        }
+      },
+      "mainEntityOfPage": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo",
+      "mentions": [
+        {
+          "@id": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo#rairaiken"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://platesaroundtheworld.netlify.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Restaurant Guides",
+          "item": "https://platesaroundtheworld.netlify.app/guides"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Where to Eat in Tokyo: A First-Timer's Neighbourhood Guide"
+        }
+      ]
+    },
+    {
+      "@type": "Restaurant",
+      "@id": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo#rairaiken",
+      "name": "Rairaiken",
+      "description": "The first specialised ramen shop, traced to Asakusa in 1910. The original closed in 1976; Wikipedia reports a descendant of the founder reopened it in Asakusa in 2026.",
+      "address": {
+        "addressLocality": "Tokyo",
+        "addressCountry": "Japan",
+        "@type": "PostalAddress"
+      },
+      "servesCuisine": "Ramen"
+    },
+    {
+      "@type": "Review",
+      "itemReviewed": {
+        "@id": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo#rairaiken"
+      },
+      "reviewBody": "Ramen historians trace the first specialised ramen shop, Rairaiken, to Asakusa in 1910. The original closed in 1976, and Wikipedia reports a descendant of the founder reopened it in Asakusa in 2026.",
+      "datePublished": "2026-10-16",
+      "author": {
+        "@type": "Organization",
+        "name": "Plates Around the World",
+        "url": "https://platesaroundtheworld.netlify.app/"
+      }
+    }
+  ]
+}

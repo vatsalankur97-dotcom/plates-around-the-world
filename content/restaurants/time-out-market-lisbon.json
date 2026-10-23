@@ -1,0 +1,15 @@
+{
+  "slug": "time-out-market-lisbon",
+  "name": "Time Out Market (Mercado da Ribeira)",
+  "schema_type": "FoodEstablishment",
+  "description": "Opened in 2014 inside the Mercado da Ribeira in Cais do Sodré, a food hall of stalls from well-known Lisbon chefs.",
+  "url": "https://www.timeout.com/time-out-market-lisboa",
+  "address": {
+    "street": "Mercado da Ribeira, Cais do Sodré",
+    "locality": "Lisbon",
+    "country": "Portugal"
+  },
+  "serves_cuisine": "Portuguese",
+  "featured_in": "where-to-eat-lisbon",
+  "review_body": "Opened in 2014 inside the Mercado da Ribeira in Cais do Sodré, this food hall gathers stalls from well-known Lisbon chefs under one roof."
+}

@@ -308,7 +308,12 @@ form.contact label{font-weight:600}
           "url": "https://platesaroundtheworld.netlify.app/assets/img/icon.jpg"
         }
       },
-      "mainEntityOfPage": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo"
+      "mainEntityOfPage": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo",
+      "mentions": [
+        {
+          "@id": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo#rairaiken"
+        }
+      ]
     },
     {
       "@type": "BreadcrumbList",
@@ -331,6 +336,31 @@ form.contact label{font-weight:600}
           "name": "Where to Eat in Tokyo: A First-Timer's Neighbourhood Guide"
         }
       ]
+    },
+    {
+      "@type": "Restaurant",
+      "@id": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo#rairaiken",
+      "name": "Rairaiken",
+      "description": "The first specialised ramen shop, traced to Asakusa in 1910. The original closed in 1976; Wikipedia reports a descendant of the founder reopened it in Asakusa in 2026.",
+      "address": {
+        "addressLocality": "Tokyo",
+        "addressCountry": "Japan",
+        "@type": "PostalAddress"
+      },
+      "servesCuisine": "Ramen"
+    },
+    {
+      "@type": "Review",
+      "itemReviewed": {
+        "@id": "https://platesaroundtheworld.netlify.app/articles/where-to-eat-tokyo#rairaiken"
+      },
+      "reviewBody": "Ramen historians trace the first specialised ramen shop, Rairaiken, to Asakusa in 1910. The original closed in 1976, and Wikipedia reports a descendant of the founder reopened it in Asakusa in 2026.",
+      "datePublished": "2026-10-16",
+      "author": {
+        "@type": "Organization",
+        "name": "Plates Around the World",
+        "url": "https://platesaroundtheworld.netlify.app/"
+      }
     }
   ]
 }
