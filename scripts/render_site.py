@@ -415,6 +415,14 @@ def butter_body() -> tuple[str, list[str], list[str]]:
     return body, ingredients, steps
 
 
+def link_row(href: str, kicker: str, heading: str, blurb: str) -> str:
+    return (
+        f'<a class="more-link" href="{href}"><span class="more-copy"><span class="kicker">{esc(kicker)}</span>'
+        f"<strong>{esc(heading)}</strong><span>{esc(blurb)}</span></span>"
+        f'<span class="more-go" aria-hidden="true">→</span></a>'
+    )
+
+
 def recipe_card() -> str:
     fields = [
         ("Serves", True),
@@ -482,8 +490,8 @@ def build_cards():
         "bangkok": tile("/articles/best-street-food-bangkok", "Best street food in Bangkok", bangkok_blurb, "bangkok.jpg", "Spring rolls, fried fritters and wrapped rolls stacked on a street-food stall on Yaowarat Road, Bangkok (stock photo)", "Researched guide", "Thailand", BANGKOK_CREDIT, True),
         "lisbon": tile("/articles/where-to-eat-lisbon", "Where to eat in Lisbon", lisbon_blurb, "lisbon.jpg", "Two pastéis de nata on a plate between two cups of coffee on a counter at Manteigaria, Lisbon (stock photo)", "Researched guide", "Portugal", LISBON_CREDIT, True),
         "butter": tile("/articles/butter-chicken", "Butter chicken (murgh makhani)", butter_blurb, "butter-chicken.jpg", "Murgh makhani (butter chicken) beside a piece of naan on a white plate (stock photo)", "Recipe", "Delhi", BUTTER_CREDIT, True),
-        "guides": tile("/guides", "All restaurant guides", "Built from public guides, critics and reference sources, with every source linked."),
-        "recipes": tile("/recipes", "All recipes", "Step-by-step home versions of the world's favourite plates. More on the way."),
+        "guides": link_row("/guides", "Guides", "All restaurant guides", "Built from public guides, critics and reference sources, with every source linked."),
+        "recipes": link_row("/recipes", "Recipes", "All recipes", "Step-by-step home versions of the world's favourite plates. More on the way."),
     }
     cards["tokyo_long"] = tile("/articles/where-to-eat-tokyo", "Where to Eat in Tokyo: A First-Timer's Neighbourhood Guide", tokyo_blurb, "where-to-eat-tokyo.jpg", "Red-bean pancake sandwich and a white teapot on a tray in Asakusa, Tokyo (our photo, Oct 2024)", "Researched guide · our photos", "Japan", TOKYO_CREDIT, False, 1600, 1000)
     cards["ramen_long"] = tile("/articles/ramen-101", "Ramen 101: Shoyu, Shio, Miso & Tonkotsu Explained", ramen_blurb, "ramen-101.jpg", "Bowl of ramen with two soft-boiled eggs, chāshū pork, sweetcorn, sliced leek and nori (stock photo)", "Deep-dive", "Japan", RAMEN_CREDIT, True)
@@ -949,7 +957,7 @@ def main() -> None:
         "modified": "2026-10-22",
         "nav": None,
         "crumbs": [("Home", "/"), ("Recipes", "/recipes"), ("Butter Chicken (Murgh Makhani) at Home", None)],
-        "keep": [cards["recipes"], cards["ramen_short"], cards["tokyo_short"]],
+        "keep": [cards["ramen_short"], cards["tokyo_short"], cards["recipes"]],
     }
     write(ROOT / "articles" / "butter-chicken.html", article_shell(butter_spec, butter, recipe_ld))
     write(ROOT / "index.html", homepage(cards))
