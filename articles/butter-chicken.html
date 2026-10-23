@@ -68,7 +68,11 @@ nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0;align-items:cente
 .search-slot{display:flex;align-items:center}
 nav a{color:var(--cr);text-decoration:none;font-weight:600;font-size:.95rem;padding:10px 14px;border-radius:999px;display:inline-block}
 nav a:hover,nav a[aria-current="page"]{background:rgba(242,177,52,.18);color:var(--s)}
-.menu{display:none;background:transparent;color:var(--cr);border:1px solid rgba(251,246,236,.4);border-radius:999px;padding:10px 16px;font:600 1rem/1 var(--sans);min-height:44px}
+.menu,.search-toggle{display:none;background:transparent;color:var(--cr);border:1px solid rgba(251,246,236,.4);border-radius:999px;font:600 1rem/1 var(--sans);min-height:44px;cursor:pointer}
+.menu{padding:10px 16px}
+.search-toggle{width:44px;padding:0;align-items:center;justify-content:center}
+.search-toggle:hover,.menu:hover{color:var(--s);border-color:var(--s)}
+#site-nav{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;background:radial-gradient(ellipse at 75% 40%,#3d2a22 0%,var(--ink) 62%);color:var(--cr);overflow:hidden;padding:48px 0 72px}
 .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(transparent,var(--cr))}
 .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:center}
@@ -184,7 +188,8 @@ article h2{font-size:clamp(1.45rem,2.5vw,1.9rem);margin:2rem 0 .4rem}
 .tile .credit{padding:0 18px 16px;margin:0}
 .site-search{position:relative;min-width:min(100%,220px)}
 .site-search input{font:1rem/1.4 var(--sans);color:var(--ink);background:#fff;border:0;border-radius:999px;padding:10px 14px;min-height:44px;width:100%}
-#site-search-results{position:absolute;z-index:50;top:calc(100% + 6px);left:0;right:0;background:#fff;color:var(--ink);border-radius:16px;margin:0;padding:8px;list-style:none;box-shadow:0 16px 40px rgba(0,0,0,.2);max-height:60vh;overflow:auto}
+#site-search-results{display:none;position:absolute;z-index:50;top:calc(100% + 6px);left:0;right:0;background:#fff;color:var(--ink);border-radius:16px;margin:0;padding:8px;list-style:none;box-shadow:0 16px 40px rgba(0,0,0,.2);max-height:60vh;overflow:auto}
+#site-search-results:not([hidden]){display:block}
 #site-search-results a{display:block;padding:8px 10px;border-radius:10px;color:var(--t-deep);font-weight:600}
 .news label,.band label{font-weight:600;color:var(--cr)}
 .inline-news{background:#fff;border-radius:18px;padding:16px 18px;margin:1.4rem 0}
@@ -228,9 +233,12 @@ form.contact label{font-weight:600}
   .sec-head{flex-direction:column;align-items:start}
 }
 @media(max-width:760px){
-  .menu{display:inline-flex}
-  .search-slot,.site-search{width:100%}
-  nav ul{display:none;position:absolute;top:100%;left:12px;right:12px;background:rgba(27,27,26,.97);flex-direction:column;padding:12px;border-radius:18px}
+  .menu,.search-toggle{display:inline-flex}
+  .brand{margin-right:auto}
+  .search-slot{display:none;position:absolute;top:calc(100% + 8px);left:12px;right:12px;z-index:45;background:rgba(27,27,26,.97);padding:12px;border-radius:18px}
+  .search-slot.open{display:block}
+  .site-search{width:100%;min-width:0}
+  nav ul{display:none;position:absolute;top:calc(100% + 8px);left:12px;right:12px;background:rgba(27,27,26,.97);flex-direction:column;padding:12px;border-radius:18px}
   nav ul.open{display:flex}
   section{padding:56px 0}
   .stats{grid-template-columns:1fr 1fr}
@@ -364,15 +372,16 @@ form.contact label{font-weight:600}
 <header>
 <div class="nav">
 <a class="brand" href="/"><img class="mark" src="/assets/img/icon.jpg" srcset="/assets/img/opt/icon-84.webp 84w" sizes="42px" alt="" width="42" height="42">Plates Around the World</a>
+<button class="search-toggle" type="button" aria-label="Search" aria-expanded="false" aria-controls="site-search"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10" cy="10" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 15l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">Menu</button>
-<nav id="site-nav" aria-label="Primary"><ul>
-<li class="search-slot"><div class="site-search">
-  <label for="site-search">Search</label>
+<nav id="site-nav" aria-label="Primary"><div class="search-slot"><div class="site-search">
+  <label class="sr" for="site-search">Search</label>
   <input id="site-search" type="search" data-site-search placeholder="Search guides and recipes" autocomplete="off">
   <ul id="site-search-results" data-site-search-results hidden></ul>
 </div>
 <script src="/assets/search.js" defer></script>
-</li><li><a href="/guides">Restaurant Guides</a></li><li><a href="/recipes">Recipes</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li>
+</div><ul>
+<li><a href="/guides">Restaurant Guides</a></li><li><a href="/recipes">Recipes</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li>
 </ul></nav>
 </div>
 </header>

@@ -4,9 +4,24 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const menu = $(".menu");
   const list = $("#site-nav ul");
+  const searchBtn = $(".search-toggle");
+  const searchSlot = $(".search-slot");
   menu?.addEventListener("click", () => {
     const open = list.classList.toggle("open");
     menu.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) {
+      searchSlot?.classList.remove("open");
+      searchBtn?.setAttribute("aria-expanded", "false");
+    }
+  });
+  searchBtn?.addEventListener("click", () => {
+    const open = searchSlot.classList.toggle("open");
+    searchBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) {
+      list?.classList.remove("open");
+      menu?.setAttribute("aria-expanded", "false");
+      searchSlot.querySelector("input")?.focus();
+    }
   });
   // Legacy mailto path. Backend's Netlify form must not use data-subscribe.
   $$("form[data-subscribe]").forEach((form) => {

@@ -27,7 +27,7 @@ INSTA_SIZES = "(min-width: 760px) 16vw, 30vw"
 TRIP_SIZES = "(min-width: 700px) 30vw, 46vw"
 
 SEARCH = """<div class="site-search">
-  <label for="site-search">Search</label>
+  <label class="sr" for="site-search">Search</label>
   <input id="site-search" type="search" data-site-search placeholder="Search guides and recipes" autocomplete="off">
   <ul id="site-search-results" data-site-search-results hidden></ul>
 </div>
@@ -110,7 +110,6 @@ def picture(rel: str, alt: str, width: int, height: int, widths: tuple[int, ...]
 
 def header(current: str | None) -> str:
     items = []
-    items.append(f'<li class="search-slot">{SEARCH}</li>')
     for href, label, key in NAV:
         current_attr = ' aria-current="page"' if key == current else ""
         items.append(f'<li><a href="{href}"{current_attr}>{label}</a></li>')
@@ -118,8 +117,9 @@ def header(current: str | None) -> str:
 <header>
 <div class="nav">
 <a class="brand" href="/"><img class="mark" src="/assets/img/icon.jpg" srcset="/assets/img/opt/icon-84.webp 84w" sizes="42px" alt="" width="42" height="42">Plates Around the World</a>
+<button class="search-toggle" type="button" aria-label="Search" aria-expanded="false" aria-controls="site-search"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10" cy="10" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 15l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">Menu</button>
-<nav id="site-nav" aria-label="Primary"><ul>
+<nav id="site-nav" aria-label="Primary"><div class="search-slot">{SEARCH}</div><ul>
 {''.join(items)}
 </ul></nav>
 </div>
