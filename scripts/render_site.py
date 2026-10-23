@@ -579,7 +579,7 @@ def homepage(cards) -> str:
 </div></div></section>
 {newsletter_band()}
 {PRIVACY}
-<section><div class="wrap"><div class="sec-head"><div><p class="kicker">@platesaroundtheworld_</p><h2>On the gram.</h2></div></div>
+<section><div class="wrap"><div class="sec-head"><div><p class="kicker">@platesaroundtheworld_</p><h2>On the gram.</h2></div><p class="sub"><a href="https://www.instagram.com/platesaroundtheworld_/" target="_blank" rel="noopener">Follow @platesaroundtheworld_</a></p></div>
 <div class="insta">{''.join(tiles)}</div></div></section>
 </main>
 """
