@@ -572,19 +572,19 @@ def homepage(cards) -> str:
     main = f"""<main id="content">
 {hero()}
 {marquee()}
-<section id="guides"><div class="wrap"><div class="sec-head"><div><p class="kicker">Featured guides</p><h2>Where the <em>critics</em> keep going back.</h2></div><p class="sub">Researched city guides, with sources on every page. First-hand visits are always marked.</p></div>
-<div class="grid">{cards["tokyo"]}{cards["ramen"]}{cards["bangkok"]}{cards["lisbon"]}</div>
+<section class="rv" id="guides"><div class="wrap"><div class="sec-head"><div><p class="kicker">Featured guides</p><h2>Where the <em>critics</em> keep going back.</h2></div><p class="sub">Researched city guides, with sources on every page. First-hand visits are always marked.</p></div>
+<div class="grid grid-2">{cards["tokyo"]}{cards["ramen"]}{cards["bangkok"]}{cards["lisbon"]}</div>
 </div></section>
-<section class="mapsec"><div class="wrap"><div class="sec-head"><div><p class="kicker">Where to next?</p><h2>Pick a pin. Pack an appetite.</h2></div><p class="sub">Glowing pins are live. The rest are simmering, coming soon.</p></div>
+<section class="mapsec rv"><div class="wrap"><div class="sec-head"><div><p class="kicker">Where to next?</p><h2>Pick a pin. Pack an appetite.</h2></div><p class="sub">Glowing pins are live. The rest are simmering, coming soon.</p></div>
 {pins()}
 </div></section>
-<section><div class="wrap"><div class="sec-head"><div><p class="kicker">Latest recipes</p><h2>Bring it <em>home.</em></h2></div><p class="sub">Dishes from the road, written for your kitchen.</p></div>
-<div class="grid">{cards["butter"]}
+<section class="rv"><div class="wrap"><div class="sec-head"><div><p class="kicker">Latest recipes</p><h2>Bring it <em>home.</em></h2></div><p class="sub">Dishes from the road, written for your kitchen.</p></div>
+<div class="grid grid-2">{cards["butter"]}
 <div class="spin"><div class="spinplate"><b>Feeling hungry?</b></div><div><p class="spin-result"></p><button class="btn" id="spin" type="button">Spin the plate</button></div></div>
 </div></div></section>
 {newsletter_band()}
 {PRIVACY}
-<section><div class="wrap"><div class="sec-head"><div><p class="kicker">@platesaroundtheworld_</p><h2>On the gram.</h2></div><p class="sub"><a href="https://www.instagram.com/platesaroundtheworld_/" target="_blank" rel="noopener">Follow @platesaroundtheworld_</a></p></div>
+<section class="rv"><div class="wrap"><div class="sec-head"><div><p class="kicker">@platesaroundtheworld_</p><h2>On the gram.</h2></div><p class="sub"><a href="https://www.instagram.com/platesaroundtheworld_/" target="_blank" rel="noopener">Follow @platesaroundtheworld_</a></p></div>
 <div class="insta">{''.join(tiles)}</div></div></section>
 </main>
 """

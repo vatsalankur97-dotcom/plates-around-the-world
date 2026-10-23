@@ -69,7 +69,7 @@ nav a:hover,nav a[aria-current="page"]{background:rgba(242,177,52,.18);color:var
 .steam path:nth-child(2){animation-delay:1.2s}
 .steam path:nth-child(3){animation-delay:2.2s}
 .plate-map{position:absolute;left:50%;top:57%;width:58%;height:58%;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden;background:#1c1c1a}
-.plate-map span{position:absolute;inset:-20% -40%;background:transparent 0 46% / 220px 86px repeat-x;animation:pan 28s linear infinite}
+.plate-map span{position:absolute;inset:-20% -40%;background:url("/assets/img/world.svg") 0 46% / 220px 86px repeat-x;animation:pan 28s linear infinite}
 @keyframes draw{to{stroke-dashoffset:0}}
 @keyframes steam{0%{opacity:0;transform:translateY(12px)}30%{opacity:.8}100%{opacity:0;transform:translateY(-46px)}}
 @keyframes pan{to{background-position:-220px 46%}}
@@ -86,8 +86,14 @@ h2 em{font-style:normal;color:var(--t)}
 .hub{margin-top:36px}
 .hub h2{font-size:clamp(1.6rem,3vw,2.2rem)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px}
-.card{display:flex;flex-direction:column;background:#fff;color:var(--ink);text-decoration:none;border-radius:22px;overflow:hidden;box-shadow:0 16px 40px rgba(46,46,46,.08);min-height:100%}
-.card:hover{color:var(--ink);transform:translateY(-3px)}
+.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.rv{animation:rise linear both;animation-duration:auto;animation-timeline:view();animation-range:entry 0% cover 22%}
+@keyframes rise{from{transform:translateY(32px)}to{transform:none}}
+.card{display:flex;flex-direction:column;background:#fff;color:var(--ink);text-decoration:none;border-radius:22px;overflow:hidden;box-shadow:0 16px 40px rgba(46,46,46,.08);min-height:100%;transition:box-shadow .45s ease}
+.tile{transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.tile:hover{transform:translateY(-4px);box-shadow:0 22px 48px rgba(46,46,46,.14)}
+.tile:hover .card{box-shadow:0 22px 48px rgba(46,46,46,.14)}
+.card:hover{color:var(--ink)}
 .card picture{display:block;aspect-ratio:4/3;width:100%;background:#efe6d4;overflow:hidden}
 .card img{width:100%;height:100%;object-fit:cover;aspect-ratio:auto}
 .more-link{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;grid-column:1 / -1;background:var(--ink);color:var(--cr);text-decoration:none;border-radius:22px;padding:22px 24px;min-height:148px;box-shadow:0 16px 40px rgba(46,46,46,.08);transition:transform .45s cubic-bezier(.2,.7,.2,1),background .45s ease}
@@ -117,7 +123,8 @@ h2 em{font-style:normal;color:var(--t)}
 .pin.soon{color:rgba(251,246,236,.7)}
 .pin.soon i{background:rgba(251,246,236,.45);animation:none}
 @keyframes pulse{70%{box-shadow:0 0 0 12px rgba(242,177,52,0)}}
-.spin{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;background:#fff;border-radius:28px;padding:28px}
+.spin{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;background:#fff;border-radius:28px;padding:28px;box-shadow:0 16px 40px rgba(46,46,46,.08);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.spin:hover{transform:translateY(-4px)}
 .spinplate{width:220px;height:220px;border-radius:50%;display:grid;place-items:center;text-align:center;background:radial-gradient(circle,var(--cr) 52%,#efe6d4 53% 66%,var(--t) 67% 72%,#efe6d4 73%);box-shadow:inset 0 0 0 8px #fff,0 18px 40px rgba(46,46,46,.12);transition:transform 1.4s cubic-bezier(.2,.8,.2,1)}
 .spinplate b{font-family:var(--serif);font-size:1.2rem;max-width:120px}
 .spin-result{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem);color:var(--t-deep);min-height:1.3em}
@@ -213,10 +220,11 @@ form.contact label{font-weight:600}
 .tg-grid figcaption{color:var(--muted);font-size:.85rem;margin-top:6px}
 .empty-hub{background:#fff;border-radius:18px;padding:16px 18px}
 @media(max-width:900px){
-  .hero-grid,.spin,.keep-reading .grid:has(.more-link){grid-template-columns:1fr}
+  .hero-grid,.spin,.grid-2,.keep-reading .grid:has(.more-link){grid-template-columns:1fr}
   .logo-stage{max-width:280px;order:-1}
   .insta{grid-template-columns:repeat(3,1fr)}
   .sec-head{flex-direction:column;align-items:start}
+  .spin:hover,.tile:hover,.more-link:hover{transform:none}
 }
 @media(max-width:760px){
   .menu,.search-toggle{display:inline-flex}
