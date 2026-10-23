@@ -186,6 +186,9 @@ article h2{font-size:clamp(1.45rem,2.5vw,1.9rem);margin:2rem 0 .4rem}
 .stats dt{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--o);font-weight:600}
 .stats dd{margin:.2rem 0 0;font-family:var(--serif);font-size:1.15rem}
 .stats .empty{color:var(--muted);font-family:var(--sans);font-size:.95rem;font-style:italic}
+.stats-known{grid-template-columns:repeat(2,minmax(0,200px));max-width:440px}
+.slot-note{margin:0 0 14px;color:var(--muted);font-size:.95rem;font-style:italic}
+.recipe-slots{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .keep,.keep-reading{padding-top:10px}
 .keep-reading .grid:has(.more-link){grid-template-columns:repeat(2,minmax(0,1fr))}
 .keep h2,.keep-reading h2{font-size:clamp(1.8rem,3vw,2.4rem)}
@@ -409,7 +412,13 @@ form.contact label{font-weight:600}
 <section class="recipe-card" aria-label="Recipe card">
 <p class="kicker">Recipe</p>
 <p class="recipe-name">Butter Chicken (Murgh Makhani)</p>
-<dl class="stats"><div><dt>Serves</dt><dd class="empty">OWNER TO SUPPLY</dd></div><div><dt>Prep</dt><dd class="empty">OWNER TO SUPPLY</dd></div><div><dt>Marinate</dt><dd class="empty">OWNER TO SUPPLY</dd></div><div><dt>Cook</dt><dd class="empty">OWNER TO SUPPLY</dd></div><div><dt>Total</dt><dd class="empty">OWNER TO SUPPLY</dd></div><div><dt>Cuisine</dt><dd>Indian (Punjabi / Delhi)</dd></div><div><dt>Course</dt><dd>Main</dd></div><div><dt>Diet</dt><dd class="empty">OWNER TO SUPPLY</dd></div><div><dt>Difficulty</dt><dd class="empty">OWNER TO SUPPLY</dd></div><div><dt>Equipment</dt><dd class="empty">OWNER TO SUPPLY</dd></div></dl>
+<dl class="stats stats-known">
+<div data-field="cuisine"><dt>Cuisine</dt><dd>Indian (Punjabi / Delhi)</dd></div>
+<div data-field="course"><dt>Course</dt><dd>Main</dd></div>
+</dl>
+<p class="slot-note">Times and servings: owner to supply</p>
+<div class="recipe-slots" aria-hidden="true"><span data-field="serves">Serves: OWNER TO SUPPLY</span><span data-field="prep">Prep: OWNER TO SUPPLY</span><span data-field="marinate">Marinate: OWNER TO SUPPLY</span><span data-field="cook">Cook: OWNER TO SUPPLY</span><span data-field="total">Total: OWNER TO SUPPLY</span><span data-field="diet">Diet: OWNER TO SUPPLY</span><span data-field="difficulty">Difficulty: OWNER TO SUPPLY</span><span data-field="equipment">Equipment: OWNER TO SUPPLY</span></div>
+<!-- RECIPE-SLOTS: Backend can replace each data-field value. Known fields stay in the dl above. Do not invent times or servings. -->
 <p class="btns"><a class="btn" href="#ingredients">Jump to recipe</a> <button class="btn line" type="button" data-print>Print</button></p>
 </section>
 <p>Butter chicken comes from Delhi's Punjabi restaurant kitchens, and who invented it is literally a court case. Moti Mahal credits its founder Kundan Lal Gujral, while the Daryaganj chain says his partner Kundan Lal Jaggi created it. The Delhi High Court is hearing the dispute. Our version keeps the char and the silky sauce.</p>

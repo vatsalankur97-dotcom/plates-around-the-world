@@ -424,31 +424,27 @@ def link_row(href: str, kicker: str, heading: str, blurb: str) -> str:
 
 
 def recipe_card() -> str:
-    fields = [
-        ("Serves", True),
-        ("Prep", True),
-        ("Marinate", True),
-        ("Cook", True),
-        ("Total", True),
-        ("Cuisine", False),
-        ("Course", False),
-        ("Diet", True),
-        ("Difficulty", True),
-        ("Equipment", True),
+    pending = [
+        ("serves", "Serves"),
+        ("prep", "Prep"),
+        ("marinate", "Marinate"),
+        ("cook", "Cook"),
+        ("total", "Total"),
+        ("diet", "Diet"),
+        ("difficulty", "Difficulty"),
+        ("equipment", "Equipment"),
     ]
-    values = {
-        "Cuisine": "Indian (Punjabi / Delhi)",
-        "Course": "Main",
-    }
-    cells = []
-    for label, empty in fields:
-        text = "OWNER TO SUPPLY" if empty else values[label]
-        cls = ' class="empty"' if empty else ""
-        cells.append(f"<div><dt>{label}</dt><dd{cls}>{text}</dd></div>")
+    slots = "".join(f'<span data-field="{key}">{label}: OWNER TO SUPPLY</span>' for key, label in pending)
     return f'''<section class="recipe-card" aria-label="Recipe card">
 <p class="kicker">Recipe</p>
 <p class="recipe-name">Butter Chicken (Murgh Makhani)</p>
-<dl class="stats">{''.join(cells)}</dl>
+<dl class="stats stats-known">
+<div data-field="cuisine"><dt>Cuisine</dt><dd>Indian (Punjabi / Delhi)</dd></div>
+<div data-field="course"><dt>Course</dt><dd>Main</dd></div>
+</dl>
+<p class="slot-note">Times and servings: owner to supply</p>
+<div class="recipe-slots" aria-hidden="true">{slots}</div>
+<!-- RECIPE-SLOTS: Backend can replace each data-field value. Known fields stay in the dl above. Do not invent times or servings. -->
 <p class="btns"><a class="btn" href="#ingredients">Jump to recipe</a> <button class="btn line" type="button" data-print>Print</button></p>
 </section>'''
 
