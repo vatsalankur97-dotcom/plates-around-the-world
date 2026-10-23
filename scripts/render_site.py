@@ -474,6 +474,38 @@ def write(path: Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+def kept_span(path: Path, start: str, end: str) -> str | None:
+    if not path.is_file():
+        return None
+    text = path.read_text(encoding="utf-8")
+    i = text.find(start)
+    j = text.find(end)
+    if i == -1 or j == -1 or j < i:
+        return None
+    return text[i:j + len(end)]
+
+
+def restore_markers(path: Path, html: str) -> str:
+    """Leave JSON-LD and gear interiors untouched. The content build owns them."""
+    for start, end in (
+        ("<!-- JSON-LD:START -->", "<!-- JSON-LD:END -->"),
+        ("<!-- GEAR:START -->", "<!-- GEAR:END -->"),
+    ):
+        current = kept_span(path, start, end)
+        if current is None:
+            continue
+        i = html.find(start)
+        j = html.find(end)
+        if i == -1 or j == -1 or j < i:
+            continue
+        html = html[:i] + current + html[j + len(end):]
+    return html
+
+
+def publish(path: Path, html: str) -> None:
+    write(path, restore_markers(path, html))
+
+
 def build_cards():
     tokyo_blurb = "Breakfast at Tsukiji, snacks under the tracks at Ameyoko, yakitori in Shinjuku's memory lane: Tokyo, one neighbourhood at a time."
     ramen_blurb = "Four bowls, one cheat-sheet: what each style means, where it comes from, and which to order first."
@@ -677,25 +709,6 @@ def not_found() -> str:
     return head(title, desc, None, "website", "/assets/img/banner.jpg", 1280, 720, BANNER_ALT, robots="noindex") + header(None) + main + footer() + "</body></html>\n"
 
 
-def disclosure_page() -> str:
-    title = "Disclosure | Plates Around the World"
-    desc = "How Plates Around the World makes money, including affiliate links, gifts, and paid partnerships."
-    main = """<main id="content"><div class="page">
-<h1>Disclosure: how we make money</h1>
-<p>Plates Around the World is a small, independent food publication. We keep it free to read in a few honest ways, and we'll always tell you which one is in play.</p>
-<p><strong>Affiliate links.</strong> Some pages link to products on shops such as Amazon.in, Flipkart and other retailers, through affiliate programmes and networks (for example EarnKaro and Cuelinks). If you buy through one of these links, we may earn a small commission. <strong>It costs you nothing extra.</strong> Pages with affiliate links carry an <strong>"Affiliate"</strong> note before the first link. We only list gear and ingredients we actually use, or clearly say when we haven't tried something.</p>
-<p><strong>Gifts, hosted meals and collaborations.</strong> Sometimes a brand sends us a product, or a restaurant hosts our meal. When that happens, the post is labelled <strong>"Free gift"</strong> or <strong>"Collaboration"</strong> at the top and says exactly what we received. Our opinions stay our own, and nobody gets to approve what we write.</p>
-<p><strong>Paid partnerships.</strong> Paid content is labelled <strong>"Ad"</strong> or <strong>"Sponsored"</strong> at the top, and uses the platform's paid-partnership tag on social media.</p>
-<p><strong>First-hand vs researched.</strong> Separately from all this, every guide says whether we ate there ourselves ("First-hand visit") or researched it ("Researched guide"). See <a href="/about#method">How we research</a>.</p>
-<p><strong>AI.</strong> We don't use AI-generated images to show a partner's product or a restaurant's food. If an image in a post is AI-generated, we label it.</p>
-<p>We follow the Advertising Standards Council of India (ASCI) guidelines for influencer advertising. Questions? Email <a href="mailto:plates.arounddtheworld@gmail.com">plates.arounddtheworld@gmail.com</a>.</p>
-<p><em>Last updated: 22 Oct 2026.</em></p>
-</div></main>
-"""
-    note = "<!-- SHELL: copy partials/header.html and partials/footer.html. Backend _write_disclosure still hardcodes the pre-redesign header. -->\n"
-    return note + head(title, desc, "/disclosure", "website", "/assets/img/banner.jpg", 1280, 720, BANNER_ALT) + header(None) + main + footer() + "</body></html>\n"
-
-
 def template_page() -> str:
     title = "ARTICLE TITLE"
     desc = "META DESCRIPTION: 150–160 characters, specific dishes/places, no claims we can't source."
@@ -743,29 +756,6 @@ def template_page() -> str:
 """
     page = head(title, desc, "/articles/SLUG", "article", "/assets/img/banner.jpg", 1280, 720, BANNER_ALT, jsonld="", robots="noindex") + header(None) + main + footer() + "</body></html>\n"
     return "<!-- 50–60 chars total; add \" | Plates\" only if it fits in the title. -->\n" + page
-
-
-def search_index() -> str:
-    records = [
-        {"title": "Where to Eat in Tokyo: A First-Timer's Neighbourhood Guide", "url": "/articles/where-to-eat-tokyo", "type": "article", "description": "Where to eat in Tokyo on a first trip: Tsukiji breakfasts, Ameyoko snacks, Shinjuku's Omoide Yokocho, ramen areas and konbini, one neighbourhood at a time.", "text": "Tsukiji Outer Market, Ameya-Yokochō, Omoide Yokocho, ramen, Asakusa, Rairaiken, konbini."},
-        {"title": "Ramen 101: Shoyu, Shio, Miso & Tonkotsu Explained", "url": "/articles/ramen-101", "type": "article", "description": "Shoyu, shio, miso or tonkotsu? What each ramen style means, where it comes from (Tokyo, Hakodate, Sapporo, Fukuoka) and which bowl to order first in Japan.", "text": "shoyu shio miso tonkotsu tare broth noodles Hakata Sapporo Hakodate."},
-        {"title": "Best Street Food in Bangkok", "url": "/articles/best-street-food-bangkok", "type": "article", "description": "Bangkok street food the critics keep coming back to: Jay Fai's crab omelette, Thipsamai's pad thai, oyster omelette and Yaowarat after dark. Sources cited.", "text": "Jay Fai Thipsamai Yaowarat Nai Mong Hoi Tod."},
-        {"title": "Where to Eat in Lisbon", "url": "/articles/where-to-eat-lisbon", "type": "article", "description": "Where to eat in Lisbon: pastéis de nata in Belém, garlic prawns at Cervejaria Ramiro, Time Out Market and petiscos in Chiado. A researched guide, sources cited.", "text": "Pastéis de Belém Cervejaria Ramiro Time Out Market Taberna da Rua das Flores."},
-        {"title": "Butter Chicken (Murgh Makhani) at Home", "url": "/articles/butter-chicken", "type": "recipe", "description": "Butter chicken (murgh makhani) at home: charred yoghurt-marinated chicken in a silky tomato, butter and cream sauce, and the court case over who invented it.", "text": "murgh makhani marinade yoghurt tomato butter cream kasuri methi."},
-        {"title": "Disclosure", "url": "/disclosure", "type": "page", "description": "How Plates Around the World makes money, including affiliate links, gifts, and paid partnerships.", "text": "Affiliate links gifts collaborations paid partnerships."},
-    ]
-    return json.dumps(records, ensure_ascii=False, indent=2) + "\n"
-
-
-def sitemap() -> str:
-    paths = ["/", "/guides", "/recipes", "/about", "/contact", "/disclosure", "/articles/best-street-food-bangkok", "/articles/where-to-eat-lisbon", "/articles/butter-chicken", "/articles/where-to-eat-tokyo", "/articles/ramen-101"]
-    urls = "\n".join(f"<url><loc>{HOST}{path}</loc><lastmod>2026-10-22</lastmod></url>" for path in paths)
-    return f"""<?xml version="1.0" encoding="UTF-8"?>
-<!-- Hand-maintained on redesign. Backend's build overwrites sitemap.xml from content/site.json and uses the .html paths stored there. Both forms return 200. -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{urls}
-</urlset>
-"""
 
 
 def robots() -> str:
@@ -910,7 +900,7 @@ def main() -> None:
     }
     for slug, body in pages.items():
         spec = specs[slug]
-        write(ROOT / "articles" / f"{slug}.html", article_shell(spec, body, article_ld(spec)))
+        publish(ROOT / "articles" / f"{slug}.html", article_shell(spec, body, article_ld(spec)))
     recipe_ld = {
         "@context": "https://schema.org",
         "@graph": [
@@ -955,20 +945,20 @@ def main() -> None:
         "crumbs": [("Home", "/"), ("Recipes", "/recipes"), ("Butter Chicken (Murgh Makhani) at Home", None)],
         "keep": [cards["ramen_short"], cards["tokyo_short"], cards["recipes"]],
     }
-    write(ROOT / "articles" / "butter-chicken.html", article_shell(butter_spec, butter, recipe_ld))
-    write(ROOT / "index.html", homepage(cards))
-    write(ROOT / "guides.html", guides_page(cards))
-    write(ROOT / "recipes.html", recipes_page(cards))
-    write(ROOT / "about.html", about_page())
-    write(ROOT / "contact.html", contact_page())
-    write(ROOT / "404.html", not_found())
-    write(ROOT / "disclosure.html", disclosure_page())
-    write(ROOT / "templates" / "article-template.html", template_page())
-    write(ROOT / "sitemap.xml", sitemap())
+    # disclosure.html, sitemap.xml and data/search-index.json are written by
+    # scripts/build_articles.py. publish() also puts back any JSON-LD or GEAR
+    # interior already on disk, so this script cannot replace the build output.
+    publish(ROOT / "articles" / "butter-chicken.html", article_shell(butter_spec, butter, recipe_ld))
+    publish(ROOT / "index.html", homepage(cards))
+    publish(ROOT / "guides.html", guides_page(cards))
+    publish(ROOT / "recipes.html", recipes_page(cards))
+    publish(ROOT / "about.html", about_page())
+    publish(ROOT / "contact.html", contact_page())
+    publish(ROOT / "404.html", not_found())
+    publish(ROOT / "templates" / "article-template.html", template_page())
     write(ROOT / "robots.txt", robots())
     write(ROOT / "_redirects", redirects())
     write(ROOT / "_headers", headers())
-    write(ROOT / "data" / "search-index.json", search_index())
     write_partials()
     required = {
         ROOT / "articles" / "butter-chicken.html": ["<!-- JSON-LD:START -->", "<!-- JSON-LD:END -->", "<!-- GEAR:START -->", "<!-- GEAR:END -->", "OWNER TO SUPPLY", "Luca Nebuloni"],

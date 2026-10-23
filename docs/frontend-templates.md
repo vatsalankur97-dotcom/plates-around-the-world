@@ -1,6 +1,6 @@
 # Frontend templates
 
-The live pages are static HTML. `python3 scripts/render_site.py` writes them from `content/bodies/*.fragment.html` plus the strings in that script. Netlify does not run it. `netlify.toml` on this branch is unchanged on purpose: no build command.
+The live pages are static HTML. `python3 scripts/render_site.py` writes shell markup from `content/bodies/*.fragment.html` plus the strings in that script. It does not write `sitemap.xml`, `disclosure.html`, or `data/search-index.json`, and if a page already has `<!-- JSON-LD:START -->` or `<!-- GEAR:START -->` it puts the existing interior back. `scripts/build_articles.py` owns those four outputs. Netlify runs that build, not this renderer.
 
 `scripts/serve.py` is a local preview server only.
 
@@ -53,7 +53,9 @@ Other markers, not filled by the build:
 - `#site-search` so the label's `for` matches
 - `[data-site-search-results]` and `#site-search-results` on the results list
 
-It fetches `/data/search-index.json`. The file on this branch is a starter index so the script does not 404. The content build overwrites it.
+The label has class `sr` (hidden visually, still the accessible name). Under 760px the field is inside `.search-slot` and stays closed until `.search-toggle` adds `.open`. `#site-search-results` stays `display: none` while it has the `hidden` attribute. `nav ul { display: flex }` would otherwise paint the empty list, because that author rule beats the browser's `[hidden]` style.
+
+It fetches `/data/search-index.json`, which the content build writes.
 
 ## Newsletter hooks
 
@@ -71,7 +73,7 @@ Placement: the home band; Tokyo after Good to know; Ramen after the cheat-sheet 
 
 ## Gear styles
 
-`partials/gear.css` is folded into `assets/style.css` as `.gear-list`, `.gear-item`, `.gear-label`, `.gear-meta`, `.gear-why`, and `.gear-disclosure`. Colours use the site tokens. `scripts/render_site.py` inlines `assets/style.css` in each page so the first paint does not wait on a stylesheet request. Edit the CSS file, then re-run the renderer.
+`partials/gear.css` is folded into `assets/style.css` as `.gear-list`, `.gear-item`, `.gear-label`, `.gear-meta`, `.gear-why`, and `.gear-disclosure`. Colours use the site tokens. `scripts/render_site.py` inlines `assets/style.css` in each page so the first paint does not wait on a stylesheet request. Edit the CSS file, then re-run the renderer. That run refreshes the shell and the inlined CSS. It does not replace JSON-LD, gear HTML, the sitemap, the disclosure page, or the search index.
 
 ## Page shape
 
@@ -91,9 +93,9 @@ Do not merge that branch over this one. Rebase it onto `redesign`, then keep the
 4. **Sitemap.** `sitemap.xml` here is hand-maintained and extensionless, with `lastmod` 2026-10-22. The build overwrites it from `content/site.json`.
 5. **`netlify.toml`.** Not edited here. The pipeline adds `command = "python3 scripts/build_articles.py"` and `ignore = "exit 0"` for deploy previews and branch deploys. That file will come back on rebase. This repo still has no build command until that lands.
 6. **Newsletter.** The pipeline partial uses `action="/"` and the `netlify` attribute, and says "weekly plate". Approved copy forbids a weekly promise and sets `action="[NEWSLETTER_FORM_ACTION: TBD]"`. The `netlify` attribute is omitted until the owner picks the tool. Field names match the partial.
-7. **Privacy.** The pipeline section says Netlify Forms stores the address and calls the list the weekly plate. The tool is not chosen, so the visible note does not say that. The `#privacy` id and the removal email are unchanged.
+7. **Privacy.** The visible block is `<details id="privacy" class="privacy">`, a short note under the newsletter. It does not say the list is weekly and it does not say Netlify stores the address. `assets/main.js` opens it when a link to `#privacy` is clicked. The removal email is unchanged.
 8. **Disclosure shell.** `_write_disclosure` hardcodes the pre-redesign header and a relative `disclosure.html` link. Copy `partials/header.html` and `partials/footer.html`. The footer link here is `/disclosure.html`.
 9. **Gear disclosure URL.** `gear.py` links articles at `../disclosure.html`. The footer uses `/disclosure.html`. Both resolve. Root-relative is the one that also works if a page moves.
 10. **Search URLs.** The starter index uses extensionless URLs. The build writes whatever `path` says, currently `.html`.
 11. **`robots.txt`.** Still points at `https://platesaroundtheworld.netlify.app/sitemap.xml`. Also disallows `/templates/`, `/partials/`, `/scripts/`, `/content/`, and `/docs/`. The pipeline does not edit this file.
-12. **Recipe times.** Visible fields and JSON-LD omit yield, prep, marinate, cook, and total. The text on the page is `OWNER TO SUPPLY`. Do not estimate them. Cuisine `Indian (Punjabi / Delhi)` and course `Main` are the approved card labels, so they are in the visible card and in the hand-written `Recipe` node.
+12. **Recipe times.** The visible card shows Cuisine and Course, then one line: `Times and servings: owner to supply`. Yield, prep, marinate, cook, total, diet, difficulty, and equipment stay `OWNER TO SUPPLY` on `span[data-field]` inside `.recipe-slots` (visually hidden, with a `RECIPE-SLOTS` comment). Do not estimate them. When a value is real, put it in the visible `dl` and update that span. Cuisine `Indian (Punjabi / Delhi)` and course `Main` are the approved labels. JSON-LD omits yield and the times.
