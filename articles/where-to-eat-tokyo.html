@@ -196,8 +196,10 @@ article h2{font-size:clamp(1.45rem,2.5vw,1.9rem);margin:2rem 0 .4rem}
 .inline-news label{font-weight:600}
 .privacy-note{flex:1 0 100%;font-size:.95rem;margin:.4rem 0 0}
 .news .privacy-note,.band .privacy-note{color:var(--cr)}
-#privacy{max-width:760px;margin:0 auto;padding:0 24px 36px}
-#privacy h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+.privacy{max-width:720px;margin:4px auto 12px;padding:0 24px 8px;color:var(--muted);font-size:.92rem}
+.privacy summary{cursor:pointer;font-weight:600;color:var(--o);width:fit-content}
+.privacy summary:hover{color:var(--t-deep)}
+.privacy p{margin:.65rem 0 0}
 .gear-list{list-style:none;padding:0;margin:1rem 0}
 .gear-item{padding:14px 0;border-bottom:1px solid var(--line)}
 .gear-label{font-size:.85rem;font-weight:600;color:var(--o)}
@@ -393,13 +395,14 @@ form.contact label{font-weight:600}
 <!-- PRIVACY:START -->
 <!-- Backend file: partials/privacy-section.html
      Conflict: that file says "weekly plate" and that Netlify Forms stores the
-     submission. The tool is still TBD, so this note does not claim either. -->
-<section id="privacy">
-  <h2>Privacy</h2>
+     submission. The tool is still TBD, so this note does not claim either.
+     id="privacy" stays so the form link resolves. -->
+<details id="privacy" class="privacy">
+  <summary>Privacy</summary>
   <p>The newsletter form collects your email address and nothing else. We use it to send that newsletter. We don't sell it, and we don't use it for other mail.</p>
   <p>No sending tool is connected yet. The hidden honeypot field is spam protection; leave it empty. It is not a profile.</p>
   <p>To be removed, email <a href="mailto:plates.arounddtheworld@gmail.com">plates.arounddtheworld@gmail.com</a> and we will delete the address.</p>
-</section>
+</details>
 <!-- PRIVACY:END -->
 
 </main>

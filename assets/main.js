@@ -23,6 +23,13 @@
       searchSlot.querySelector("input")?.focus();
     }
   });
+  const privacy = $("#privacy");
+  if (privacy && location.hash === "#privacy") privacy.open = true;
+  $$('a[href="#privacy"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      if (privacy) privacy.open = true;
+    });
+  });
   // Legacy mailto path. Backend's Netlify form must not use data-subscribe.
   $$("form[data-subscribe]").forEach((form) => {
     form.addEventListener("submit", (event) => {
