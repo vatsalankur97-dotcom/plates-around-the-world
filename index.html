@@ -25,6 +25,7 @@
 <meta name="twitter:image:alt" content="Plates Around the World logo: a terracotta plate with a small world map, on a dark background.">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/fonts/fraunces-normal-560-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="/assets/img/manhattan/opt/midtown-towers-dusk-800.avif" type="image/avif" imagesrcset="/assets/img/manhattan/opt/midtown-towers-dusk-480.avif 480w, /assets/img/manhattan/opt/midtown-towers-dusk-800.avif 800w, /assets/img/manhattan/opt/midtown-towers-dusk-1200.avif 1200w, /assets/img/manhattan/opt/midtown-towers-dusk-1600.avif 1600w, /assets/img/manhattan/opt/midtown-towers-dusk-2160.avif 2160w" imagesizes="100vw">
 <style>:root{
   --t:#C8553D;
   --t-deep:#9A4034;
@@ -318,8 +319,116 @@ form.contact label{font-weight:600}
 }
 </script>
 <!-- JSON-LD:END -->
-</head>
-<body>
+<script>
+document.documentElement.classList.add("js");
+if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  document.documentElement.classList.add("reduce");
+} else if (window.CSS && CSS.supports("animation-timeline", "view()")) {
+  document.documentElement.classList.add("timeline");
+} else {
+  document.documentElement.classList.add("js-slide");
+}
+</script><style id="revamp-css">
+body.revamp-a.guide-dark{background:#141413;color:#FBF6EC}
+body.revamp-a.guide-dark h1,body.revamp-a.guide-dark h2,body.revamp-a.guide-dark h3{color:#FBF6EC}
+.progress{position:fixed;left:0;right:0;top:0;height:3px;background:#F2B134;transform:scaleX(0);transform-origin:0 50%;z-index:50;pointer-events:none}
+.timeline .progress{animation:grow linear both;animation-timeline:scroll(root block)}
+@keyframes grow{to{transform:scaleX(1)}}
+.hero-film{padding:0;min-height:0;background:#141413;color:#FBF6EC;display:block;overflow:visible}
+.hero-film::after{display:none}
+.film-pin{position:relative;min-height:calc(100svh - 80px);width:100%;display:block}
+.timeline .hero-film{height:150vh;view-timeline:--hero block}
+.timeline .film-pin{position:sticky;top:72px;height:calc(100svh - 80px);min-height:0;overflow:hidden}
+.film-media{position:absolute;inset:0}
+.film-media img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover}
+.timeline .film-media img{animation:ken linear both;animation-timeline:--hero;animation-range:cover 0% cover 100%}
+@keyframes ken{from{transform:scale(1.14)}to{transform:scale(1)}}
+.film-media::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,12,11,.88) 0%,rgba(12,12,11,.62) 46%,rgba(12,12,11,.18) 100%)}
+.hero-film .hero-grid{position:relative;z-index:1;min-height:calc(100svh - 80px);align-items:end;padding-top:28px;padding-bottom:28px;grid-template-columns:minmax(0,760px)}
+.hero-film h1,.hero-film .tagline,.hero-film .rot{color:#FBF6EC}
+.hero-film h1{font-size:clamp(2.7rem,5.6vw,4.8rem)}
+.hero-film .lead{color:rgba(251,246,236,.84)}
+.hero-film .logo-stage{display:none}
+.opener{position:relative;min-height:calc(100svh - 72px);display:block;background:#141413;color:#FBF6EC;padding:0}
+.opener .frame{position:absolute;inset:0}
+.opener .frame img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover}
+.timeline .opener{height:148vh;view-timeline:--open block}
+.timeline .opener .chapter-pin{position:sticky;top:72px;height:calc(100svh - 80px);min-height:0;overflow:hidden}
+.timeline .opener .frame{position:absolute;inset:0;height:auto}
+.timeline .opener .frame img{animation:ken linear both;animation-timeline:--open;animation-range:cover 0% cover 100%}
+.opener .scrim,.chapter .scrim{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:18vh 7vw 7vh;background:linear-gradient(to top,rgba(12,12,11,.96) 8%,rgba(12,12,11,.82) 42%,transparent 100%);color:#FBF6EC}
+.chapter{position:relative;min-height:100svh;padding:0;background:#141413}
+.chapter-pin{position:relative;min-height:100svh}
+.chapter .frame{position:absolute;inset:0;min-height:100svh;background:#1b1b1a}
+.chapter .frame img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover}
+.timeline .chapter{height:168vh;view-timeline:--chap block}
+.timeline .chapter-pin{position:sticky;top:72px;height:calc(100svh - 80px);min-height:0;overflow:hidden}
+.timeline .slot-chapter{height:auto}
+.timeline .slot-chapter .chapter-pin{position:relative;top:auto;height:auto;min-height:0;overflow:visible;display:flex;flex-direction:column}
+.slot-chapter .slot-grid{min-height:48vh}
+.slot-chapter .frame{position:relative;inset:auto;min-height:48vh}
+.slot-chapter .scrim{position:relative;background:transparent;padding:8px 7vw 48px}
+.slot-chapter .ph{min-height:46vh}
+.timeline .chapter .frame img{animation:ken linear both;animation-timeline:--chap;animation-range:cover 0% cover 100%}
+.scrim h2{color:#FBF6EC;font-size:clamp(2.4rem,6vw,5.2rem);line-height:.94;margin:6px 0 12px;max-width:18ch}
+.scrim .kicker{color:#F2B134}
+.when{margin:0;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;color:rgba(251,246,236,.8)}
+.when time{color:#FBF6EC;letter-spacing:.08em;font-size:1rem}
+.slot{font-family:var(--serif);font-style:italic;color:#F2B134;margin:.35rem 0 .8rem;max-width:36rem}
+.unnamed{display:inline-block;margin:0 0 10px;padding:4px 10px;border:1px solid rgba(251,246,236,.4);border-radius:999px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:#FBF6EC}
+.scrim .credit,.cta-pin .credit{color:rgba(251,246,236,.86)}
+.idx{display:block;font-family:var(--serif);font-size:clamp(3.2rem,8vw,6rem);line-height:.8;color:rgba(251,246,236,.42);margin:0}
+.tiers{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:8px}
+.tiers-label{margin:0;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:rgba(251,246,236,.7)}
+.tiers ul{display:flex;gap:6px;list-style:none;margin:0;padding:0}
+.tiers li{min-width:44px;min-height:36px;display:grid;place-items:center;padding:6px 10px;border:1px solid rgba(251,246,236,.45);border-radius:999px;color:#FBF6EC;font-weight:600}
+.tiers .slot{margin:0}
+.tier-key{display:flex;flex-wrap:wrap;gap:8px 18px;list-style:none;padding:0;margin:14px 0 0;color:rgba(251,246,236,.86)}
+.tier-key b{color:#F2B134;font-family:var(--serif);font-weight:560;margin-right:6px}
+.rail{position:sticky;top:68px;z-index:30;display:flex;gap:6px;justify-content:flex-start;overflow:auto;padding:8px 16px;background:rgba(20,20,19,.92);border-bottom:1px solid rgba(251,246,236,.08)}
+.rail a{color:#FBF6EC;text-decoration:none;font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;padding:10px 12px;border-radius:999px;min-height:44px;display:inline-flex;align-items:center;white-space:nowrap}
+.rail a[aria-current="true"]{background:#F2B134;color:#1b1b1a}
+.deck{max-width:38rem;color:rgba(251,246,236,.84);font-size:1.15rem}
+.frame-note{max-width:40rem;color:rgba(251,246,236,.9)}
+.slot-grid{display:grid;grid-template-columns:1fr 1fr;min-height:100svh}
+.ph{min-height:100%;display:grid;align-content:center;justify-items:center;text-align:center;gap:8px;padding:32px 18px;color:#FBF6EC;background:radial-gradient(circle at 50% 40%,#2a2420,#141413 70%)}
+.plate{width:min(46vw,220px);height:auto}
+.ph-kicker{margin:8px 0 0;letter-spacing:.16em;text-transform:uppercase;font-size:.75rem;font-weight:600;color:#F2B134}
+.ph-title{margin:0;font-family:var(--serif);font-size:clamp(1.4rem,3vw,2rem);max-width:16ch}
+.overture{background:#141413;color:#FBF6EC}
+.overture .sec-label{padding:28px 0 0}
+.cta-pin{min-height:100svh;display:grid;align-content:center;padding:12vh 7vw;background:#141413}
+.cta-pin h2{font-size:clamp(2.6rem,6vw,5rem);line-height:.95;color:#FBF6EC;max-width:12ch}
+.tail{background:#FBF6EC;color:#2E2E2E;padding-top:28px}
+.tail h2,.tail h3{color:#1b1b1a}
+.crumbs a{color:#F2B134}
+.crumbs li:not(:last-child)::after{color:rgba(251,246,236,.45)}
+@media(min-width:900px){
+  .guide-dark .rail{position:fixed;top:50%;right:18px;transform:translateY(-50%);flex-direction:column;width:auto;background:transparent;border:0;padding:0;overflow:visible}
+  .guide-dark .rail a{background:rgba(20,20,19,.72)}
+  .guide-dark .rail a[aria-current="true"]{background:#F2B134}
+}
+@media(max-width:800px){
+  .film-media::after{background:linear-gradient(to top,rgba(12,12,11,.92) 0%,rgba(12,12,11,.55) 48%,rgba(12,12,11,.2) 100%)}
+  .hero-film .hero-grid{grid-template-columns:minmax(0,1fr)}
+  .hero-film .logo-stage{display:none}
+  .slot-grid{grid-template-columns:1fr}
+  .scrim h2{font-size:clamp(2.1rem,10vw,3.2rem)}
+  .chapter .scrim{padding:18vh 22px 24px}
+  .opener .scrim{padding:2px 20px 12px}
+  .opener .scrim h1{font-size:2.35rem;line-height:.95;margin:0 0 4px}
+  .opener .tagline,.opener .deck,.opener .slot,.opener .frame-note{margin:0 0 4px;font-size:1rem;line-height:1.35}
+  .opener .tier-key{margin:2px 0 6px}
+  .opener .btn{min-height:44px;padding:10px 18px}
+}
+@media(prefers-reduced-motion:reduce){
+  .progress{transform:none}
+  .timeline .chapter,.timeline .hero-film,.timeline .opener{height:auto}
+  .timeline .chapter-pin,.timeline .film-pin,.timeline .opener .frame{position:relative;height:auto}
+  .chapter .frame img,.film-media img,.opener .frame img{transform:none}
+}
+</style></head>
+<body class="revamp-a">
 <a class="skip" href="#content">Skip to content</a>
 <header>
 <div class="nav">
@@ -333,20 +442,12 @@ form.contact label{font-weight:600}
 </div>
 <script src="/assets/search.js" defer></script>
 </div><ul>
-<li><a href="/guides">Restaurant Guides</a></li><li><a href="/recipes">Recipes</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li>
+<li><a href="/guides">Restaurant Guides</a></li><li><a href="/guides/manhattan">Manhattan</a></li><li><a href="/recipes">Recipes</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li>
 </ul></nav>
 </div>
 </header>
 <main id="content">
-<section class="hero"><div class="wrap hero-grid">
-<div>
-<p class="tagline">Restaurants. Recipes. Every corner of the map.</p>
-<h1 aria-label="Every corner of the map, served.">Every corner of the map, <em>served.</em></h1>
-<p class="rot">Tonight in <b data-list='["Bangkok…","Lisbon…","Delhi…","Tokyo…"]'>Bangkok…</b></p>
-<p class="lead">Pull up a chair. We dig through the guides, critics and locals' favourites so you know where to eat, and how to cook it at home.</p>
-<div class="btns"><a class="btn" href="/guides">Explore guides</a><a class="btn alt" href="/recipes">Cook a recipe</a></div>
-</div>
-<div class="logo-stage" aria-hidden="true">
+<section class="hero hero-film"><div class="film-pin"><div class="film-media"><picture><source type="image/avif" srcset="/assets/img/manhattan/opt/midtown-towers-dusk-480.avif 480w, /assets/img/manhattan/opt/midtown-towers-dusk-800.avif 800w, /assets/img/manhattan/opt/midtown-towers-dusk-1200.avif 1200w, /assets/img/manhattan/opt/midtown-towers-dusk-1600.avif 1600w, /assets/img/manhattan/opt/midtown-towers-dusk-2160.avif 2160w" sizes="100vw"><source type="image/webp" srcset="/assets/img/manhattan/opt/midtown-towers-dusk-480.webp 480w, /assets/img/manhattan/opt/midtown-towers-dusk-800.webp 800w, /assets/img/manhattan/opt/midtown-towers-dusk-1200.webp 1200w, /assets/img/manhattan/opt/midtown-towers-dusk-1600.webp 1600w, /assets/img/manhattan/opt/midtown-towers-dusk-2160.webp 2160w" sizes="100vw"><img src="/assets/img/manhattan/opt/midtown-towers-dusk-1200.jpg" srcset="/assets/img/manhattan/opt/midtown-towers-dusk-480.jpg 480w, /assets/img/manhattan/opt/midtown-towers-dusk-800.jpg 800w, /assets/img/manhattan/opt/midtown-towers-dusk-1200.jpg 1200w, /assets/img/manhattan/opt/midtown-towers-dusk-1600.jpg 1600w, /assets/img/manhattan/opt/midtown-towers-dusk-2160.jpg 2160w" sizes="100vw" alt="Glass towers catching the last light at dusk above a busy Manhattan street" width="1200" height="900" decoding="async" style="object-position:center center" fetchpriority="high"></picture></div><div class="wrap hero-grid"><div><p class="tagline">Restaurants. Recipes. Every corner of the map.</p><h1 aria-label="Every corner of the map, served.">Every corner of the map, <em>served.</em></h1><p class="rot">Tonight in <b data-list='["Manhattan…","Bangkok…","Lisbon…","Delhi…","Tokyo…"]'>Manhattan…</b></p><p class="lead">Pull up a chair. We dig through the guides, critics and locals' favourites so you know where to eat, and how to cook it at home.</p><div class="btns"><a class="btn" href="/guides/manhattan">Manhattan, by the clock</a><a class="btn alt" href="/guides">Explore guides</a><a class="btn alt" href="/recipes">Cook a recipe</a></div></div><div class="logo-stage" aria-hidden="true">
 <svg viewBox="0 0 400 400">
 <g class="steam"><path d="M168 96c-12-18 8-30 0-48"/><path d="M200 86c-12-18 8-30 0-48"/><path d="M232 96c-12-18 8-30 0-48"/></g>
 <circle cx="200" cy="228" r="150" fill="#241f1c"/>
@@ -354,15 +455,14 @@ form.contact label{font-weight:600}
 <circle class="rim" cx="200" cy="228" r="146" fill="none" stroke="#C8553D" stroke-width="7"/>
 </svg>
 <div class="plate-map"><span></span></div>
-</div>
-</div></section>
+</div></div></div></section><div class="overture" id="manhattan-overture"><nav class="rail" aria-label="Time of day"><a href="#home-pizza" data-period="afternoon" aria-current="true">Afternoon</a><a href="#home-dusk" data-period="dusk">Dusk</a><a href="#home-night" data-period="night">Night</a></nav><section class="chapter" id="home-pizza" data-period="afternoon"><div class="chapter-pin"><div class="frame"><picture><source type="image/avif" srcset="/assets/img/manhattan/opt/pizza-slices-afternoon-480.avif 480w, /assets/img/manhattan/opt/pizza-slices-afternoon-800.avif 800w, /assets/img/manhattan/opt/pizza-slices-afternoon-1200.avif 1200w, /assets/img/manhattan/opt/pizza-slices-afternoon-1600.avif 1600w, /assets/img/manhattan/opt/pizza-slices-afternoon-1620.avif 1620w" sizes="100vw"><source type="image/webp" srcset="/assets/img/manhattan/opt/pizza-slices-afternoon-480.webp 480w, /assets/img/manhattan/opt/pizza-slices-afternoon-800.webp 800w, /assets/img/manhattan/opt/pizza-slices-afternoon-1200.webp 1200w, /assets/img/manhattan/opt/pizza-slices-afternoon-1600.webp 1600w, /assets/img/manhattan/opt/pizza-slices-afternoon-1620.webp 1620w" sizes="100vw"><img src="/assets/img/manhattan/opt/pizza-slices-afternoon-1200.jpg" srcset="/assets/img/manhattan/opt/pizza-slices-afternoon-480.jpg 480w, /assets/img/manhattan/opt/pizza-slices-afternoon-800.jpg 800w, /assets/img/manhattan/opt/pizza-slices-afternoon-1200.jpg 1200w, /assets/img/manhattan/opt/pizza-slices-afternoon-1600.jpg 1600w, /assets/img/manhattan/opt/pizza-slices-afternoon-1620.jpg 1620w" sizes="100vw" alt="Three New York pizza slices on paper plates along a tiled counter" width="1200" height="1600" decoding="async" style="object-position:center 58%" loading="lazy"></picture></div><div class="scrim"><div class="cap"><p class="kicker">Food · Afternoon</p><p class="when">Photo <time>15:05</time></p><h2>Pizza slices</h2><p class="slot">[Copy: one sentence on this dish. Do not name the venue.]</p><p class="unnamed">Venue not named.</p><div class="tiers"><p class="tiers-label">Budget</p><ul aria-label="Budget tier, not yet assigned"><li>$</li><li>$$</li><li>$$$</li></ul><p class="slot">[Copy: budget tier $, $$, or $$$]</p></div><p class="credit">Our photo.</p></div><p><a class="btn" href="/guides/manhattan#pizza">In the guide</a></p></div></div></section><section class="chapter" id="home-dusk" data-period="dusk"><div class="chapter-pin"><div class="frame"><picture><source type="image/avif" srcset="/assets/img/manhattan/opt/midtown-towers-dusk-480.avif 480w, /assets/img/manhattan/opt/midtown-towers-dusk-800.avif 800w, /assets/img/manhattan/opt/midtown-towers-dusk-1200.avif 1200w, /assets/img/manhattan/opt/midtown-towers-dusk-1600.avif 1600w, /assets/img/manhattan/opt/midtown-towers-dusk-2160.avif 2160w" sizes="100vw"><source type="image/webp" srcset="/assets/img/manhattan/opt/midtown-towers-dusk-480.webp 480w, /assets/img/manhattan/opt/midtown-towers-dusk-800.webp 800w, /assets/img/manhattan/opt/midtown-towers-dusk-1200.webp 1200w, /assets/img/manhattan/opt/midtown-towers-dusk-1600.webp 1600w, /assets/img/manhattan/opt/midtown-towers-dusk-2160.webp 2160w" sizes="100vw"><img src="/assets/img/manhattan/opt/midtown-towers-dusk-1200.jpg" srcset="/assets/img/manhattan/opt/midtown-towers-dusk-480.jpg 480w, /assets/img/manhattan/opt/midtown-towers-dusk-800.jpg 800w, /assets/img/manhattan/opt/midtown-towers-dusk-1200.jpg 1200w, /assets/img/manhattan/opt/midtown-towers-dusk-1600.jpg 1600w, /assets/img/manhattan/opt/midtown-towers-dusk-2160.jpg 2160w" sizes="100vw" alt="Glass towers catching the last light at dusk above a busy Manhattan street" width="1200" height="900" decoding="async" style="object-position:center center" loading="lazy"></picture></div><div class="scrim"><div class="cap"><p class="kicker">Place · Dusk</p><p class="when">Photo <time>18:57</time></p><h2>Towers at dusk</h2><p class="slot">[Copy: one sentence on this stop]</p><div class="tiers"><p class="tiers-label">Budget</p><ul aria-label="Budget tier, not yet assigned"><li>$</li><li>$$</li><li>$$$</li></ul><p class="slot">[Copy: budget tier $, $$, or $$$]</p></div><p class="credit">Our photo.</p></div><p><a class="btn" href="/guides/manhattan#dusk">In the guide</a></p></div></div></section><section class="chapter" id="home-night" data-period="night"><div class="chapter-pin"><div class="frame"><picture><source type="image/avif" srcset="/assets/img/manhattan/opt/times-square-night-480.avif 480w, /assets/img/manhattan/opt/times-square-night-800.avif 800w, /assets/img/manhattan/opt/times-square-night-1200.avif 1200w, /assets/img/manhattan/opt/times-square-night-1600.avif 1600w, /assets/img/manhattan/opt/times-square-night-1620.avif 1620w" sizes="100vw"><source type="image/webp" srcset="/assets/img/manhattan/opt/times-square-night-480.webp 480w, /assets/img/manhattan/opt/times-square-night-800.webp 800w, /assets/img/manhattan/opt/times-square-night-1200.webp 1200w, /assets/img/manhattan/opt/times-square-night-1600.webp 1600w, /assets/img/manhattan/opt/times-square-night-1620.webp 1620w" sizes="100vw"><img src="/assets/img/manhattan/opt/times-square-night-1200.jpg" srcset="/assets/img/manhattan/opt/times-square-night-480.jpg 480w, /assets/img/manhattan/opt/times-square-night-800.jpg 800w, /assets/img/manhattan/opt/times-square-night-1200.jpg 1200w, /assets/img/manhattan/opt/times-square-night-1600.jpg 1600w, /assets/img/manhattan/opt/times-square-night-1620.jpg 1620w" sizes="100vw" alt="Times Square billboards glowing against the night sky" width="1200" height="1600" decoding="async" style="object-position:center 42%" loading="lazy"></picture></div><div class="scrim"><div class="cap"><p class="kicker">Place · Night</p><p class="when">Photo <time>21:51</time></p><h2>Times Square</h2><p class="slot">[Copy: one sentence on this stop]</p><div class="tiers"><p class="tiers-label">Budget</p><ul aria-label="Budget tier, not yet assigned"><li>$</li><li>$$</li><li>$$$</li></ul><p class="slot">[Copy: budget tier $, $$, or $$$]</p></div><p class="credit">Our photo.</p></div><p><a class="btn" href="/guides/manhattan#night">In the guide</a></p></div></div></section><section class="chapter"><div class="chapter-pin cta-pin"><p class="kicker">Manhattan</p><h2>By the clock.</h2><p class="deck">Places and food, afternoon to night.</p><p class="slot">[Copy from Content Studio]</p><a class="btn" href="/guides/manhattan">Open the guide</a></div></section></div>
 
-<div class="marquee" aria-hidden="true"><div class="track"><span>Bangkok</span><span>·</span><span>Pad Thai</span><span>·</span><span>Lisbon</span><span>·</span><span>Pastel de nata</span><span>·</span><span>Delhi</span><span>·</span><span>Butter chicken</span><span>·</span><span>Tokyo</span><span>·</span><span>Ramen</span><span>·</span><span>Istanbul</span><span>·</span><span>Simit</span><span>·</span><span>Naples</span><span>·</span><span>Pizza margherita</span><span>·</span><span>Bangkok</span><span>·</span><span>Pad Thai</span><span>·</span><span>Lisbon</span><span>·</span><span>Pastel de nata</span><span>·</span><span>Delhi</span><span>·</span><span>Butter chicken</span><span>·</span><span>Tokyo</span><span>·</span><span>Ramen</span><span>·</span><span>Istanbul</span><span>·</span><span>Simit</span><span>·</span><span>Naples</span><span>·</span><span>Pizza margherita</span><span>·</span></div></div>
+<div class="marquee" aria-hidden="true"><div class="track"><span>Manhattan</span><span>·</span><span>Bangkok</span><span>·</span><span>Pad Thai</span><span>·</span><span>Lisbon</span><span>·</span><span>Pastel de nata</span><span>·</span><span>Delhi</span><span>·</span><span>Butter chicken</span><span>·</span><span>Tokyo</span><span>·</span><span>Ramen</span><span>·</span><span>Istanbul</span><span>·</span><span>Simit</span><span>·</span><span>Naples</span><span>·</span><span>Pizza margherita</span><span>·</span><span>Manhattan</span><span>·</span><span>Bangkok</span><span>·</span><span>Pad Thai</span><span>·</span><span>Lisbon</span><span>·</span><span>Pastel de nata</span><span>·</span><span>Delhi</span><span>·</span><span>Butter chicken</span><span>·</span><span>Tokyo</span><span>·</span><span>Ramen</span><span>·</span><span>Istanbul</span><span>·</span><span>Simit</span><span>·</span><span>Naples</span><span>·</span><span>Pizza margherita</span><span>·</span></div></div>
 <section class="rv" id="guides"><div class="wrap"><div class="sec-head"><div><p class="kicker">Featured guides</p><h2>Where the <em>critics</em> keep going back.</h2></div><p class="sub">Researched city guides, with sources on every page. First-hand visits are always marked.</p></div>
 <div class="grid grid-2"><div class="tile"><a class="card" href="/articles/where-to-eat-tokyo"><picture><source type="image/avif" srcset="/assets/img/opt/where-to-eat-tokyo-480.avif 480w, /assets/img/opt/where-to-eat-tokyo-800.avif 800w, /assets/img/opt/where-to-eat-tokyo-1200.avif 1200w" sizes="(min-width: 980px) 340px, (min-width: 640px) 46vw, 92vw"><source type="image/webp" srcset="/assets/img/opt/where-to-eat-tokyo-480.webp 480w, /assets/img/opt/where-to-eat-tokyo-800.webp 800w, /assets/img/opt/where-to-eat-tokyo-1200.webp 1200w" sizes="(min-width: 980px) 340px, (min-width: 640px) 46vw, 92vw"><img src="/assets/img/where-to-eat-tokyo.jpg" alt="Red-bean pancake sandwich and a white teapot on a tray in Asakusa, Tokyo (our photo, Oct 2024)" width="1600" height="1000" loading="lazy"></picture><div class="card-body"><p class="card-kicker"><span class="tag">Researched guide · our photos</span><span class="region">Japan</span></p><h3>Where to eat in Tokyo</h3><p>Breakfast at Tsukiji, snacks under the tracks at Ameyoko, yakitori in Shinjuku&#x27;s memory lane: Tokyo, one neighbourhood at a time.</p></div></a><p class="credit">Our photo: Asakusa, Tokyo, Oct 2024.</p></div><div class="tile"><a class="card" href="/articles/ramen-101"><picture><source type="image/avif" srcset="/assets/img/opt/ramen-101-480.avif 480w, /assets/img/opt/ramen-101-800.avif 800w, /assets/img/opt/ramen-101-1200.avif 1200w" sizes="(min-width: 980px) 340px, (min-width: 640px) 46vw, 92vw"><source type="image/webp" srcset="/assets/img/opt/ramen-101-480.webp 480w, /assets/img/opt/ramen-101-800.webp 800w, /assets/img/opt/ramen-101-1200.webp 1200w" sizes="(min-width: 980px) 340px, (min-width: 640px) 46vw, 92vw"><img src="/assets/img/ramen-101.jpg" alt="Bowl of ramen with two soft-boiled eggs, chāshū pork, sweetcorn, sliced leek and nori (stock photo)" width="1200" height="750" loading="lazy"></picture><div class="card-body"><p class="card-kicker"><span class="tag">Deep-dive</span><span class="tag">Stock photo</span><span class="region">Japan</span></p><h3>Ramen 101: shoyu, shio, miso &amp; tonkotsu</h3><p>Four bowls, one cheat-sheet: what each style means, where it comes from, and which to order first.</p></div></a><p class="credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:Ramen_with_eggs.jpg">Douglas Paul Perkins / Wikimedia Commons</a> (CC0). Stock photo, not from our trip.</p></div><div class="tile"><a class="card" href="/articles/best-street-food-bangkok"><picture><source type="image/avif" srcset="/assets/img/opt/bangkok-480.avif 480w, /assets/img/opt/bangkok-800.avif 800w, /assets/img/opt/bangkok-1200.avif 1200w" sizes="(min-width: 980px) 340px, (min-width: 640px) 46vw, 92vw"><source type="image/webp" srcset="/assets/img/opt/bangkok-480.webp 480w, /assets/img/opt/bangkok-800.webp 800w, /assets/img/opt/bangkok-1200.webp 1200w" sizes="(min-width: 980px) 340px, (min-width: 640px) 46vw, 92vw"><img src="/assets/img/bangkok.jpg" alt="Spring rolls, fried fritters and wrapped rolls stacked on a street-food stall on Yaowarat Road, Bangkok (stock photo)" width="1200" height="750" loading="lazy"></picture><div class="card-body"><p class="card-kicker"><span class="tag">Researched guide</span><span class="tag">Stock photo</span><span class="region">Thailand</span></p><h3>Best street food in Bangkok</h3><p>From Jay Fai&#x27;s crab omelette to the night stalls of Yaowarat, the Bangkok plates the critics keep coming back to.</p></div></a><p class="credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:2016_Bangkok,_Dystrykt_Samphanthawong,_Ulica_Yaowarat,_Uliczne_jedzenie_(01).jpg">Marcin Konsek / Wikimedia Commons</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>), cropped. Stock photo, not from our trip.</p></div><div class="tile"><a class="card" href="/articles/where-to-eat-lisbon"><picture><source type="image/avif" srcset="/assets/img/opt/lisbon-480.avif 480w, /assets/img/opt/lisbon-800.avif 800w, /assets/img/opt/lisbon-1200.avif 1200w" sizes="(min-width: 980px) 340px, (min-width: 640px) 46vw, 92vw"><source type="image/webp" srcset="/assets/img/opt/lisbon-480.webp 480w, /assets/img/opt/lisbon-800.webp 800w, /assets/img/opt/lisbon-1200.webp 1200w" sizes="(min-width: 980px) 340px, (min-width: 640px) 46vw, 92vw"><img src="/assets/img/lisbon.jpg" alt="Two pastéis de nata on a plate between two cups of coffee on a counter at Manteigaria, Lisbon (stock photo)" width="1200" height="750" loading="lazy"></picture><div class="card-body"><p class="card-kicker"><span class="tag">Researched guide</span><span class="tag">Stock photo</span><span class="region">Portugal</span></p><h3>Where to eat in Lisbon</h3><p>Custard tarts in Belém, garlic prawns at Ramiro and a market hall built for grazing: Lisbon&#x27;s most-praised tables.</p></div></a><p class="credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:Manteigaria_(51156209498).jpg">Shinpachi Shimura / Wikimedia Commons</a> (<a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>), cropped. Stock photo, not from our trip. Pastéis de nata at Manteigaria, Lisbon.</p></div></div>
 </div></section>
 <section class="mapsec rv"><div class="wrap"><div class="sec-head"><div><p class="kicker">Where to next?</p><h2>Pick a pin. Pack an appetite.</h2></div><p class="sub">Glowing pins are live. The rest are simmering, coming soon.</p></div>
-<div class="worldmap"><img src="/assets/img/world.svg" alt="" width="360" height="140" loading="lazy"><a class="pin" href="/articles/best-street-food-bangkok" style="left:77.9%;top:47.4%"><i></i><span>Bangkok</span></a><a class="pin" href="/articles/where-to-eat-lisbon" style="left:47.5%;top:29.5%"><i></i><span>Lisbon</span></a><a class="pin" href="/articles/butter-chicken" style="left:71.4%;top:36.7%"><i></i><span>Delhi</span></a><a class="pin" href="/articles/where-to-eat-tokyo" style="left:88.8%;top:31.7%"><i></i><span>Tokyo</span></a><span class="pin soon" style="left:22.5%;top:43.3%"><i></i><span>Mexico City · soon</span></span><span class="pin soon" style="left:58.1%;top:27.8%"><i></i><span>Istanbul · soon</span></span><span class="pin soon" style="left:29.4%;top:28.1%"><i></i><span>New York · soon</span></span><span class="pin soon" style="left:55.1%;top:81.3%"><i></i><span>Cape Town · soon</span></span><span class="pin soon" style="left:28.6%;top:65.8%"><i></i><span>Lima · soon</span></span></div>
+<div class="worldmap"><img src="/assets/img/world.svg" alt="" width="360" height="140" loading="lazy"><a class="pin" href="/articles/best-street-food-bangkok" style="left:77.9%;top:47.4%"><i></i><span>Bangkok</span></a><a class="pin" href="/articles/where-to-eat-lisbon" style="left:47.5%;top:29.5%"><i></i><span>Lisbon</span></a><a class="pin" href="/articles/butter-chicken" style="left:71.4%;top:36.7%"><i></i><span>Delhi</span></a><a class="pin" href="/articles/where-to-eat-tokyo" style="left:88.8%;top:31.7%"><i></i><span>Tokyo</span></a><span class="pin soon" style="left:22.5%;top:43.3%"><i></i><span>Mexico City · soon</span></span><span class="pin soon" style="left:58.1%;top:27.8%"><i></i><span>Istanbul · soon</span></span><a class="pin" href="/guides/manhattan" style="left:29.4%;top:28.1%"><i></i><span>Manhattan</span></a><span class="pin soon" style="left:55.1%;top:81.3%"><i></i><span>Cape Town · soon</span></span><span class="pin soon" style="left:28.6%;top:65.8%"><i></i><span>Lima · soon</span></span></div>
 </div></section>
 <section class="rv"><div class="wrap"><div class="sec-head"><div><p class="kicker">Latest recipes</p><h2>Bring it <em>home.</em></h2></div><p class="sub">Dishes from the road, written for your kitchen.</p></div>
 <div class="grid grid-2"><div class="tile"><a class="card" href="/articles/butter-chicken"><picture><source type="image/avif" srcset="/assets/img/opt/butter-chicken-480.avif 480w, /assets/img/opt/butter-chicken-800.avif 800w, /assets/img/opt/butter-chicken-1200.avif 1200w" sizes="(min-width: 980px) 340px, (min-width: 640px) 46vw, 92vw"><source type="image/webp" srcset="/assets/img/opt/butter-chicken-480.webp 480w, /assets/img/opt/butter-chicken-800.webp 800w, /assets/img/opt/butter-chicken-1200.webp 1200w" sizes="(min-width: 980px) 340px, (min-width: 640px) 46vw, 92vw"><img src="/assets/img/butter-chicken.jpg" alt="Murgh makhani (butter chicken) beside a piece of naan on a white plate (stock photo)" width="1200" height="750" loading="lazy"></picture><div class="card-body"><p class="card-kicker"><span class="tag">Recipe</span><span class="tag">Stock photo</span><span class="region">Delhi</span></p><h3>Butter chicken (murgh makhani)</h3><p>Smoky charred chicken in a silky tomato, butter and cream sauce. Here&#x27;s the Delhi classic, made at home.</p></div></a><p class="credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:Murgh_Makhani_(Butter_Chicken)_(8039245631).jpg">Luca Nebuloni / Wikimedia Commons</a> (<a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>), cropped. Stock photo, not our own cooking.</p></div>
@@ -416,4 +516,115 @@ form.contact label{font-weight:600}
 </div>
 </footer>
 <script src="/assets/main.js" defer></script>
-</body></html>
+<script id="runtime-revamp">
+(() => {
+  const root = document.documentElement;
+  const reduce = root.classList.contains("reduce");
+  const $$ = (sel, scope = document) => [...scope.querySelectorAll(sel)];
+  const $ = (sel, scope = document) => scope.querySelector(sel);
+
+  const railLinks = $$(".rail a");
+  const chapters = $$(".chapter");
+  const pins = $$(".mpin");
+  const setPeriod = (period) => {
+    railLinks.forEach((link) => {
+      if (link.dataset.period === period) link.setAttribute("aria-current", "true");
+      else link.removeAttribute("aria-current");
+    });
+  };
+  if (chapters.length && "IntersectionObserver" in window) {
+    const watch = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("in");
+        const period = entry.target.dataset.period;
+        if (period) setPeriod(period);
+        const id = entry.target.id;
+        pins.forEach((pin) => {
+          const on = pin.dataset.pin === id;
+          pin.classList.toggle("on", on);
+          if (on) pin.setAttribute("aria-current", "true");
+          else pin.removeAttribute("aria-current");
+        });
+      });
+    }, { rootMargin: "-42% 0px -42% 0px", threshold: 0 });
+    chapters.forEach((chapter) => watch.observe(chapter));
+  } else {
+    chapters.forEach((chapter) => chapter.classList.add("in"));
+  }
+
+  const wrap = $(".clock-wrap");
+  const track = $(".clock-track");
+  const pinCap = $(".pin-cap");
+  const ticks = $$(".tick");
+  const visibleStops = () => $$(".stop", track).filter((stop) => !stop.hidden);
+
+  const clockProgress = () => {
+    const start = wrap.offsetTop - window.innerHeight;
+    const end = wrap.offsetTop + wrap.offsetHeight;
+    const span = Math.max(1, end - start);
+    return Math.min(1, Math.max(0, (window.scrollY - start) / span));
+  };
+  const syncClock = () => {
+    const stops = visibleStops();
+    if (!stops.length) return;
+    const index = Math.min(stops.length - 1, Math.max(0, Math.round(clockProgress() * (stops.length - 1))));
+    if (pinCap && pinCap.dataset.i !== String(index)) {
+      pinCap.dataset.i = String(index);
+      const cap = stops[index].querySelector(".cap");
+      if (cap) pinCap.innerHTML = cap.innerHTML;
+    }
+    ticks.forEach((tick) => {
+      const on = tick.dataset.id === stops[index].id;
+      if (on) tick.setAttribute("aria-current", "true");
+      else tick.removeAttribute("aria-current");
+    });
+    if (root.classList.contains("js-slide")) {
+      const slide = stops[0].getBoundingClientRect().width || window.innerWidth;
+      track.style.transform = "translate3d(" + (-clockProgress() * (stops.length - 1) * slide) + "px,0,0)";
+    }
+  };
+  if (wrap && track) {
+    document.addEventListener("scroll", syncClock, { passive: true });
+    window.addEventListener("resize", syncClock);
+    syncClock();
+    ticks.forEach((tick) => {
+      tick.addEventListener("click", () => {
+        const stops = visibleStops();
+        const index = stops.findIndex((stop) => stop.id === tick.dataset.id);
+        if (index < 0) return;
+        if (!root.classList.contains("timeline") && !root.classList.contains("js-slide")) {
+          stops[index].scrollIntoView({ inline: "start", block: "nearest", behavior: reduce ? "auto" : "smooth" });
+          return;
+        }
+        const start = wrap.offsetTop - window.innerHeight;
+        const end = wrap.offsetTop + wrap.offsetHeight;
+        const p = stops.length === 1 ? 0 : index / (stops.length - 1);
+        const y = start + p * (end - start);
+        window.scrollTo({ top: y, behavior: reduce ? "auto" : "smooth" });
+      });
+    });
+  }
+
+  const filters = $$(".filters button");
+  filters.forEach((button) => {
+    button.addEventListener("click", () => {
+      const name = button.dataset.filter;
+      filters.forEach((item) => item.setAttribute("aria-pressed", item === button ? "true" : "false"));
+      const stops = $$(".stop");
+      let count = 0;
+      stops.forEach((stop) => {
+        const show = name === "all" || stop.dataset.part === name;
+        stop.hidden = !show;
+        const tick = document.querySelector('.tick[data-id="' + stop.id + '"]');
+        if (tick) tick.hidden = !show;
+        if (show) count += 1;
+      });
+      if (wrap) wrap.style.setProperty("--steps", String(Math.max(count, 1)));
+      if (track) track.style.setProperty("--steps", String(Math.max(count, 1)));
+      if (pinCap) pinCap.dataset.i = "";
+      syncClock();
+    });
+  });
+})();
+</script></body></html>
