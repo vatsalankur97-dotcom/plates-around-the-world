@@ -321,6 +321,13 @@ form.contact label{font-weight:600}
 <!-- JSON-LD:END -->
 <script>
 document.documentElement.classList.add("js");
+if (location.search.indexOf("shots=1") !== -1) {
+  document.documentElement.classList.add("shots");
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("img[loading='lazy']").forEach((img) => { img.loading = "eager"; });
+    document.querySelectorAll(".chapter,.stop").forEach((el) => el.classList.add("in"));
+  });
+}
 if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
   document.documentElement.classList.add("reduce");
 } else if (window.CSS && CSS.supports("animation-timeline", "view()")) {
@@ -427,6 +434,15 @@ body.revamp-a.guide-dark h1,body.revamp-a.guide-dark h2,body.revamp-a.guide-dark
   .timeline .chapter-pin,.timeline .film-pin,.timeline .opener .frame{position:relative;height:auto}
   .chapter .frame img,.film-media img,.opener .frame img{transform:none}
 }
+html.shots .chapter,html.shots .opener,html.shots .hero-film,html.shots .clock-wrap{height:auto!important;min-height:0!important}
+html.shots .chapter-pin,html.shots .film-pin,html.shots .opener .chapter-pin,html.shots .clock-pin{position:relative!important;top:auto!important;height:auto!important;min-height:calc(100svh - 80px);overflow:hidden}
+html.shots .slot-chapter .chapter-pin{min-height:0}
+html.shots .chapter .frame img,html.shots .film-media img,html.shots .opener .frame img,html.shots .stop .frame img{animation:none!important;transform:none!important}
+html.shots .scrim,html.shots .cap{opacity:1!important;transform:none!important}
+html.shots .clock-track{transform:none!important;animation:none!important;display:block!important;width:auto!important;overflow:visible!important}
+html.shots .stop{width:auto!important;height:auto!important}
+html.shots .stop .cap{position:static!important;width:auto!important;height:auto!important;margin:0!important;overflow:visible!important;clip:auto!important;white-space:normal!important}
+html.shots .pin-cap{display:none!important}
 </style></head>
 <body class="revamp-a">
 <a class="skip" href="#content">Skip to content</a>
