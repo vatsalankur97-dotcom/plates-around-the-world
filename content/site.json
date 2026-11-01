@@ -2,8 +2,8 @@
   "static_pages": [
     {"path": "/", "lastmod": "2026-10-22"},
     {"path": "/guides", "lastmod": "2026-10-22"},
-    {"path": "/guides/manhattan", "lastmod": "2026-10-30"},
-    {"path": "/guides/manhattan/e1", "lastmod": "2026-10-30"},
+    {"path": "/guides/manhattan", "lastmod": "2026-10-30", "title": "Manhattan Guide", "description": "Manhattan, told by the clock. Episode 1, 9 July 2025: one afternoon, one bus, about $79."},
+    {"path": "/guides/manhattan/e1", "lastmod": "2026-10-30", "title": "One afternoon, one bus, about $79", "description": "One afternoon in Manhattan on 9 July 2025: one bus ticket and one pizza stop, about $79."},
     {"path": "/recipes", "lastmod": "2026-10-22"},
     {"path": "/about", "lastmod": "2026-10-22"},
     {"path": "/contact", "lastmod": "2026-10-22"},

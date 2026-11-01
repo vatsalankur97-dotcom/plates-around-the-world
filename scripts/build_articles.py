@@ -544,6 +544,27 @@ def _write_search_index(pages: list[dict], restaurants: dict, gear_files: dict) 
             "description": place["description"],
             "text": place.get("review_body") or "",
         })
+    # Static pages that already have a title and description (the Manhattan
+    # hub and Episode 1) are not content-collection files. Merge them in
+    # so a rebuild does not drop them from search.
+    seen = {record["url"] for record in records}
+    site = json.loads((ROOT / "content" / "site.json").read_text(encoding="utf-8"))
+    for entry in site.get("static_pages") or []:
+        title = entry.get("title")
+        description = entry.get("description")
+        if not title or not description:
+            continue
+        url = _public_path(entry["path"])
+        if url in seen:
+            continue
+        records.append({
+            "title": title,
+            "url": url,
+            "type": "page",
+            "description": description,
+            "text": f"{title}. {description}",
+        })
+        seen.add(url)
     disclosure = ROOT / "content" / "disclosure.md"
     if disclosure.is_file():
         raw = disclosure.read_text(encoding="utf-8")
