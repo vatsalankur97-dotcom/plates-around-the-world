@@ -1,0 +1,14 @@
+{
+  "slug": "thipsamai",
+  "name": "Thipsamai",
+  "description": "A Maha Chai Road institution, trading as Thipsamai since 1966, best known for pad thai with prawn oil wrapped in a thin egg skin.",
+  "url": "https://thipsamai.com/",
+  "address": {
+    "street": "Maha Chai Road",
+    "locality": "Bangkok",
+    "country": "Thailand"
+  },
+  "serves_cuisine": "Thai",
+  "featured_in": "best-street-food-bangkok",
+  "review_body": "A Maha Chai Road institution, trading as Thipsamai since 1966. It's best known for its signature pad thai with prawn oil, wrapped in a thin egg skin."
+}

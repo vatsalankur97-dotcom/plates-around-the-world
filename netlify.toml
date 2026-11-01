@@ -1,2 +1,18 @@
+# Production still builds. Python 3 is on the default Netlify image;
+# scripts/build_articles.py uses the standard library only.
+#
+# Deploy Previews are enabled in the Netlify UI (the previous file only
+# set publish). [build] is context-aware: any of its properties, including
+# ignore, can be overridden under [context.deploy-preview] and
+# [context.branch-deploy]. An ignore command that exits 0 cancels the build
+# before the build command runs. Exit 1 would let it continue.
+# Production does not set ignore, so a production deploy still runs.
 [build]
   publish = "."
+  command = "python3 scripts/build_articles.py"
+
+[context.deploy-preview]
+  ignore = "exit 0"
+
+[context.branch-deploy]
+  ignore = "exit 0"

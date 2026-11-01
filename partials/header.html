@@ -1,0 +1,18 @@
+<!-- Copy into disclosure.html. Root-relative links. aria-current is added per page by scripts/render_site.py; leave it off on Disclosure. Search hooks: #site-search, [data-site-search], #site-search-results, [data-site-search-results]. -->
+<a class="skip" href="#content">Skip to content</a>
+<header>
+<div class="nav">
+<a class="brand" href="/"><img class="mark" src="/assets/img/icon.jpg" srcset="/assets/img/opt/icon-84.webp 84w" sizes="42px" alt="" width="42" height="42">Plates Around the World</a>
+<button class="search-toggle" type="button" aria-label="Search" aria-expanded="false" aria-controls="site-search"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10" cy="10" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 15l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">Menu</button>
+<nav id="site-nav" aria-label="Primary"><div class="search-slot"><div class="site-search">
+  <label class="sr" for="site-search">Search</label>
+  <input id="site-search" type="search" data-site-search placeholder="Search guides and recipes" autocomplete="off">
+  <ul id="site-search-results" data-site-search-results hidden></ul>
+</div>
+<script src="/assets/search.js" defer></script>
+</div><ul>
+<li><a href="/guides">Restaurant Guides</a></li><li><a href="/guides/manhattan">Manhattan</a></li><li><a href="/recipes">Recipes</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li>
+</ul></nav>
+</div>
+</header>

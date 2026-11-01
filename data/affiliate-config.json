@@ -1,0 +1,9 @@
+{
+  "AFFILIATE_LINKS_ENABLED": false,
+  "PRE_ID_MODE": "plain",
+  "networks": {
+    "amazon": {"enabled": false, "tag": ""},
+    "earnkaro": {"enabled": false, "mode": "prebuilt"},
+    "cuelinks": {"enabled": false, "cid": "", "mode": "prebuilt"}
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "butter-chicken",
+  "items": [
+    {
+      "id": "heavy-kadai",
+      "name": "Heavy-bottomed kadai, 26 cm",
+      "why": "Holds heat evenly so the tomato-butter sauce doesn't catch.",
+      "used_by_us": true,
+      "retailer": "amazon_in",
+      "network": "amazon",
+      "url": "https://www.amazon.in/dp/EXAMPLEASIN",
+      "price_shown": false,
+      "price_inr": null,
+      "last_checked": "2026-10-22",
+      "disclosure": "affiliate",
+      "active": false
+    }
+  ]
+}

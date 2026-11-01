@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, redesign]
+  push:
+    branches-ignore: [main]
+
+jobs:
+  build-and-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build
+        run: python3 scripts/build_articles.py
+      - name: Build output is already committed
+        run: git diff --exit-code
+      - name: Install exiftool
+        run: sudo apt-get update && sudo apt-get install -y libimage-exiftool-perl
+      - name: Published photos have no EXIF or GPS
+        run: python3 scripts/strip_exif.py --check
+      - name: Internal links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          fail: true
+          args: >-
+            --offline
+            --no-progress
+            --include-fragments
+            --root-dir ${{ github.workspace }}
+            --fallback-extensions html
+            --exclude NEWSLETTER_FORM_ACTION
+            --exclude-path templates
+            --exclude-path partials
+            --exclude-path docs
+            --exclude-path content/bodies
+            "./**/*.html"

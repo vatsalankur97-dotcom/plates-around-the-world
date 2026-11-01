@@ -1,0 +1,13 @@
+{
+  "slug": "nai-mong-hoi-tod",
+  "name": "Nai Mong Hoi Tod",
+  "description": "A small Chinatown shop on Michelin's 2026 Bib Gourmand list, known for crispy oyster omelette and mussel omelette.",
+  "address": {
+    "street": "Soi Phlap Phla Chai",
+    "locality": "Bangkok",
+    "country": "Thailand"
+  },
+  "serves_cuisine": "Thai",
+  "featured_in": "best-street-food-bangkok",
+  "review_body": "A small shop on Soi Phlap Phla Chai in Chinatown, on Michelin's 2026 Bib Gourmand list. It's known for crispy oyster omelette (hoi tod) and mussel omelette."
+}

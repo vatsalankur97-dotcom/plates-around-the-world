@@ -1,3 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /templates/
+Disallow: /partials/
+Disallow: /scripts/
+Disallow: /content/
+Disallow: /docs/
+
 Sitemap: https://platesaroundtheworld.netlify.app/sitemap.xml
