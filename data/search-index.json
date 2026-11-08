@@ -38,8 +38,15 @@
     "title": "Manhattan Guide",
     "url": "/guides/manhattan",
     "type": "page",
-    "description": "Manhattan, told by the clock. Episode 1, 9 July 2025: one afternoon, one bus, about $79.",
-    "text": "Manhattan Guide. Manhattan, told by the clock. Episode 1, 9 July 2025: one afternoon, one bus, about $79."
+    "description": "Manhattan, told by the clock. Episode 1, 9 July 2025: one afternoon, one bus, about $79. Episode 2, the same night: one bar, one show, about $144.",
+    "text": "Manhattan Guide. Manhattan, told by the clock. Episode 1, 9 July 2025: one afternoon, one bus, about $79. Episode 2, the same night: one bar, one show, about $144."
+  },
+  {
+    "title": "One Broadway Night for About $144: Hell's Kitchen, The Lion King & Times Square After Dark",
+    "url": "/guides/manhattan/e2",
+    "type": "page",
+    "description": "Wed 9 July 2025, 5:55 PM to 10:15 PM: one bar in Hell's Kitchen, The Lion King, and Times Square after dark. About $144 a person. Estimates.",
+    "text": "One Broadway Night for About $144: Hell's Kitchen, The Lion King & Times Square After Dark. Wed 9 July 2025, 5:55 PM to 10:15 PM: one bar in Hell's Kitchen, The Lion King, and Times Square after dark. About $144 a person. Estimates."
   },
   {
     "title": "One afternoon, one bus, about $79",
